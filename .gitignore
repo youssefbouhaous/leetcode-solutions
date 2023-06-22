@@ -1,0 +1,18 @@
+# LeetCode sync: keep authentication material out of Git.
+.env
+.env.*
+*.env
+!config.example.env
+cookies
+cookies.*
+cookies/
+*cookie*.txt
+*cookie*.json
+tokens
+tokens.*
+tokens/
+credentials
+credentials.*
+credentials/
+*.pem
+*.key
