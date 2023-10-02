@@ -1,27 +1,26 @@
 class Solution {
 public:
-    map<int,vector<int>>g;
+    map<int,set<int>>g;
     map<int,bool>v;
-    void dfs(int s){
-        v[s]=true;
-        for(auto y:g[s]){
+    void dfs(int x){
+        for(auto y : g[x]){
             if(v[y]!=true){
+                v[y]=true;
                 dfs(y);
             }
         }
     }
     bool canVisitAllRooms(vector<vector<int>>& rooms) {
-        
-        for(int i=0;i<rooms.size();i++){
-            for(auto x:rooms[i]){
-                if(x!=i){
-                    g[i].push_back(x);
-                }
+        int n=rooms.size();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<rooms[i].size();j++){
+                g[i].insert(rooms[i][j]);
             }
         }
+        v[0]=true;
         dfs(0);
-        for(int i=0;i<rooms.size();i++){
-            if(v[i]!=true){
+        for(int i=0;i<n;i++){
+            if(!v[i]){
                 return false;
             }
         }
