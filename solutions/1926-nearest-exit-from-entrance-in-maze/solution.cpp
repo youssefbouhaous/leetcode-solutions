@@ -2,45 +2,47 @@ class Solution {
 public:
     int n,m;
     bool valid(int i,int j){
-        return 0<=i && 0<=j && i<m && j<n; 
+        return 0<=i && i<n && 0<=j && j<m;
     }
     bool border(int i,int j){
-        return i==0 || j==0 || i==m-1 || j==n-1;
+        return i==0 || i==n-1 || j==0 || j==m-1;
     }
     int nearestExit(vector<vector<char>>& maze, vector<int>& entrance) {
-       m=maze.size();
-       n=maze[0].size();
-       queue<pair<pair<int,int>,int>>q;
-       q.push({{entrance[0],entrance[1]},0});
+       n=maze.size();
+       m=maze[0].size();
+       queue<pair<int,int>>q;
+       map<pair<int,int>,int>d;
        map<pair<int,int>,bool>v;
-       v[q.front().first]=true;
+       q.push({entrance[0],entrance[1]});
+       v[q.front()]=1;
        while(!q.empty()){
-           pair<int,int>next=q.front().first;
-           int d=q.front().second;
-           v[next]=true;
+           pair<int,int> x = q.front();
            q.pop();
-           int i=next.first;
-           int j=next.second;
-           if(v[{i+1,j}]!=true && valid(i+1,j ) && maze[i+1][j]=='.'){
-               if(border(i+1,j)) return d+1;
-               v[{i+1,j}]=true;
-               q.push({{i+1,j},d+1}); 
+           int i=x.first,j=x.second;
+           if(border(i,j) && (i!=entrance[0] || j!=entrance[1])){
+               return d[{i,j}];
            }
-           if(v[{i,j+1}]!=true && valid(i,j+1) && maze[i][j+1]=='.'){
-               if(border(i,j+1)) return d+1;
-               q.push({{i,j+1},d+1});
-               v[{i,j+1}]=true; 
+           if(valid(i-1,j) && maze[i-1][j]=='.' && v[{i-1,j}]==0){
+               d[{i-1,j}]=d[{i,j}]+1;
+               v[{i-1,j}]=1;
+               q.push({i-1,j});
            }
-           if(v[{i-1,j}]!=true && valid(i-1,j) && maze[i-1][j]=='.'){
-               if(border(i-1,j)) return d+1;
-               q.push({{i-1,j},d+1});
-               v[{i-1,j}]=true; 
+           if(valid(i+1,j) && maze[i+1][j]=='.' && v[{i+1,j}]==0){
+               d[{i+1,j}]=d[{i,j}]+1;
+               v[{i+1,j}]=1;
+               q.push({i+1,j});
            }
-           if(v[{i,j-1}]!=true && valid(i,j-1) && maze[i][j-1]=='.'){
-               if(border(i,j-1)) return d+1;
-               q.push({{i,j-1},d+1});
-               v[{i,j-1}]=true; 
+           if(valid(i,j-1) && maze[i][j-1]=='.' && v[{i,j-1}]==0){
+               d[{i,j-1}]=d[{i,j}]+1;
+               v[{i,j-1}]=1;
+               q.push({i,j-1});
            }
+           if(valid(i,j+1) && maze[i][j+1]=='.' && v[{i,j+1}]==0){
+               d[{i,j+1}]=d[{i,j}]+1;
+               v[{i,j+1}]=1;
+               q.push({i,j+1});
+           }
+           
        }
        return -1;
     }
