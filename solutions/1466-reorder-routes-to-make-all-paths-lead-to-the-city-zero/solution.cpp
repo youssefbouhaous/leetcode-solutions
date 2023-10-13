@@ -1,32 +1,38 @@
 class Solution {
 public:
-    int minReorder(int n, vector<vector<int>>& con) {
-        map<int,vector<int>>g;
-        set<pair<int,int>>cc;
-        for(int i=0;i<con.size();i++){
-            g[con[i][0]].push_back(con[i][1]);
-            g[con[i][1]].push_back(con[i][0]);
-            cc.insert({con[i][0],con[i][1]});
-        }
-        int c=0;
-        queue<int>q;
-        q.push(0);
-        vector<bool>v(n,false);
-        while(!q.empty()){
-            int next=q.front();
-            q.pop();
-            v[next]=true;
-            for(auto x:g[next]){
-                if(v[x]==false){
-                    bool f=0;
-                    q.push(x);
-                    v[x]=true;
-                    if(cc.find({x,next}) == cc.end()){
-                        c++;
+    int c=0;
+    map<int,vector<int>>g;
+    map<int,vector<int>>gto;
+    map<int,bool>vv;
+    void dfs(int v,vector<vector<int>>& con){
+        vv[v]=true;
+        for(auto x:g[v]){
+            if(vv[x]==true) continue;
+            if(gto[x].empty()){
+                c++;
+            }
+            else{
+                bool f=0;
+                for(auto y:gto[x]){
+                    if(y==v){
+                        f=1;
                     }
                 }
+                if(f==0){
+                    c++;
+                }
             }
+            dfs(x,con);
         }
+    }
+    int minReorder(int n, vector<vector<int>>& con) {
+        c=0;
+        for(auto x:con){
+            g[x[0]].push_back(x[1]);
+            g[x[1]].push_back(x[0]);
+            gto[x[0]].push_back(x[1]);
+        }
+        dfs(0,con);
         return c;
     }
 };
