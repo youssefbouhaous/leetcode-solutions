@@ -1,41 +1,35 @@
 class Solution {
 public:
-    string gcdOfStrings(string str1, string str2) {
-        string ans;
-        vector<string>d2;
-        int n=str2.size();
-        int m=str1.size();
-        for(int i=0;i<n;i++){
-            int a=n/(i+1);
-            string tmp;
-            string x=str2.substr(0,i+1);
-            //cout<<"::"<<x<<endl;
-            while(tmp.size()<n){
-                tmp=tmp+x;
-            }
-            //cout<<tmp<<endl;
-            if(tmp==str2){
-                d2.push_back(x);
-            }
+
+
+
+    int gcd(int n,int m){
+        if(m==0){
+            return n;
         }
-        d2.push_back(str2);
-        for(auto x:d2){
-            int a=0;
-            string tmp;
-            while(tmp.size()<m){
-                tmp=tmp+x;
-            }
-            //cout<<"x : "<<x<<endl;
-            //cout<<tmp<<endl;
-            if(tmp==str1 && x.size()>ans.size()){
-                ans=x;
-            }
+        return gcd(m,n%m);
+    }
+    string gcdOfStrings(string a, string b) {
+        if(a.size()*b.size()==0){
+            return "";
         }
-        if(str1==str2){
-            return str1;
+        if(a[0]!=b[0]){
+            return "";
         }
         else{
-            return ans;
+            int o=gcd(a.size(),b.size());
+            string re = a.substr(0,o);
+            for(int i=0;i<a.size();i+=o){
+                if(a.substr(i,o)!=re){
+                    return "";
+                }
+            }
+            for(int i=0;i<b.size();i+=o){
+                if(b.substr(i,o)!=re){
+                    return "";
+                }
+            }
+            return re;
         }
     }
 };
