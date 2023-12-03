@@ -1,17 +1,24 @@
 class Solution {
 public:
     string reverseVowels(string s) {
-        string tmp;
         string v="aeiouAEIOU";
-        for(auto x:s){
-            if(count(v.begin(),v.end(),x)>0){
-                tmp.push_back(x);
+        string a="";
+        for(int i=0;i<s.size();i++){
+            for(auto x:v){
+                if(s[i]==x){
+                    a.push_back(s[i]);
+                    break;
+                }
             }
         }
         for(int i=0;i<s.size();i++){
-            if(count(v.begin(),v.end(),s[i])>0){
-                s[i]=tmp.back();
-                tmp.pop_back();
+            for(auto x:v){
+                if(s[i]==x){
+                    char o=a.back();
+                    a.pop_back();
+                    s[i]=o;
+                    break;
+                }
             }
         }
         return s;
