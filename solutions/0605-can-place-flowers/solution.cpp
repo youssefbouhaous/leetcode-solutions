@@ -1,40 +1,31 @@
 class Solution {
 public:
     bool canPlaceFlowers(vector<int>& flowerbed, int n) {
-        int max_m=0;
-        int c=0;
-        if(flowerbed.size()==1){
-            if((flowerbed[0]==0 && n<2) || n==0){
-                return true;
-            }
-            return false;
-        }
-        while(c<flowerbed.size()){
-            //cout<<flowerbed[c]<<" ";
-            if(c==0 && flowerbed[c]==0  && flowerbed[c+1]==0){
-                flowerbed[c]=1;
-                max_m++;
-            }
-            else if(c==flowerbed.size()-1 && flowerbed[c]==0 && flowerbed[c-1]==0){
-                flowerbed[c]=1;
-                max_m++;
-            }
-            else if(0<c && c<flowerbed.size()-1 && flowerbed[c]==0 && flowerbed[c+1]==0 && flowerbed[c-1]==0){
-                max_m++;
-                flowerbed[c]=1;
-            }
-            c++;
-        }
-        /*cout<<endl;
-        for(auto x:flowerbed){
-            cout<<x<<"::";
-        }
-        cout<<max_m<<endl;*/
-        if(n>max_m){
-            return false;
-        }
-        else{
+        vector<int>b=flowerbed;
+        if(n==0){
             return true;
         }
+        if(b.size()==1){
+            if(b[0]==0 || n==0)
+            return true;
+        }
+        if(b[0]==0 && b[1]==0){
+            b[0]=1;
+            n--;
+        }
+        for(int i=1;i<b.size()-1;i++){
+            if(n==0){
+                break;
+            }
+            if(b[i]==0 && b[i-1]==0 && b[i+1]==0){
+                b[i]=1;
+                n--;
+            }
+            
+        }
+        if(n==1 && b[b.size()-1]==0 && b[b.size()-2]==0){
+            return true;
+        }
+        return n==0;
     }
 };
