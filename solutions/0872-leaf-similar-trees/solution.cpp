@@ -11,39 +11,27 @@
  */
 class Solution {
 public:
-    vector<int>r1;
-    vector<int>r2;
-    void f1(TreeNode* r){
-        if(r==nullptr){
-            return ;
+    vector<int>a;
+    vector<int>b;
+    void f(TreeNode* n,vector<int>&b){
+        if(n==nullptr){
+            return;
         }
-        if(r->left==nullptr && r->right==nullptr){
-            r1.push_back(r->val);
+        if(n->left==nullptr && n->right==nullptr){
+            b.push_back(n->val);
+            return;
         }
-        f1(r->left);
-        f1(r->right);
-    }
-    void f2(TreeNode* r){
-        if(r==nullptr){
-            return ;
-        }
-        if(r->left==nullptr && r->right==nullptr){
-            r2.push_back(r->val);
-        }
-        f2(r->left);
-        f2(r->right);
+        f(n->left,b);
+        f(n->right,b);
     }
     bool leafSimilar(TreeNode* root1, TreeNode* root2) {
-        r1.clear();
-        r2.clear();
-        f1(root1);   
-        f2(root2);
-        if(r1.size()!=r2.size()){
+        f(root1,a);
+        f(root2,b);
+        if(a.size()!=b.size()){
             return false;
-        }   
-        
-        for(int i=0;i<r1.size();i++){
-            if(r1[i]!=r2[i]){
+        }
+        for(int i=0;i<a.size();i++){
+            if(a[i]!=b[i]){
                 return false;
             }
         }
