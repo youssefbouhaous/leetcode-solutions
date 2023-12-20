@@ -11,21 +11,19 @@
  */
 class Solution {
 public:
-    int n=1;
-    void f(TreeNode* r,TreeNode* p){
-        if(r==nullptr){
+    int ans=0;
+    void f(TreeNode* n,int m){
+        if(n==nullptr){
             return;
         }
-        if((r->val)>=(p->val)){
-            n++;
+        if(n->val>=m){
+            ans++;
         }
-        r->val=max(r->val,p->val);
-        f(r->left,r);
-        f(r->right,r);
+        f(n->left,max(m,n->val));
+        f(n->right,max(m,n->val));
     }
     int goodNodes(TreeNode* root) {
-        f(root->left,root);
-        f(root->right,root);
-        return n;
+        f(root,-1000'000);
+        return ans;
     }
 };
