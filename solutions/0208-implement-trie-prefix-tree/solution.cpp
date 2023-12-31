@@ -1,44 +1,45 @@
 class Trie {
 public:
-    map<string,bool>v;
+    struct TreeNode{
+        unordered_map<char,TreeNode*>children;
+        bool is_end=false;
+    };
+    TreeNode* root;
     Trie() {
-        
+        root=new TreeNode();
     }
     
     void insert(string word) {
-        v[word]=true;
+        TreeNode* cur=root;
+        for(char ch:word){
+            if(cur->children.find(ch)==cur->children.end()){
+                cur->children[ch]=new TreeNode();
+            }
+            cur=cur->children[ch];
+        }
+        cur->is_end=true;
     }
     
     bool search(string word) {
-        if(v[word]==true){
-            return true;
+        TreeNode* cur=root;
+        for(char ch:word){
+            if(cur->children.find(ch)==cur->children.end()){
+                return false;
+            }
+            cur=cur->children[ch];
         }
-        else{
-            v[word]=false;
-            return false;
-        }
+        return cur->is_end;
     }
     
     bool startsWith(string prefix) {
-        for(auto x:v){
-            if(x.second==false){
-                continue;
+        TreeNode* cur=root;
+        for(char ch:prefix){
+            if(cur->children.find(ch)==cur->children.end()){
+                return false;
             }
-            if(x.first.size()<prefix.size()){
-                continue;
-            }
-            bool f=1;
-            for(int i=0;i<prefix.size();i++){
-                if(prefix[i]!=x.first[i]){
-                    f=0;
-                    break;
-                }
-            }
-            if(f==1){
-                return true;
-            }
+            cur=cur->children[ch];
         }
-        return false;
+        return cur!=nullptr;
     }
 };
 
