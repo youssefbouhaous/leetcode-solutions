@@ -1,33 +1,44 @@
 class Solution {
 public:
     int deleteAndEarn(vector<int>& nums) {
-        sort(nums.begin(),nums.end());
+        vector<int>v;
         map<int,int>d;
-        set<int>st;
         for(auto x:nums){
-            d[x]++;
-            st.insert(x);
-        }
-        nums.clear();
-        for(auto x:st){
-            nums.push_back(x);
-        }
-        int n=nums.size();
-        if(n==1){
-            return d[nums[0]]*nums[0];
-        }
-        vector<int>dp(n);
-        dp[0]=nums[0]*d[nums[0]];
-        for(int i=1;i<n;i++){
-            cout<<nums[i]<<" ";
-            if(nums[i]!=nums[i-1]+1){
-                dp[i]=dp[i-1]+d[nums[i]]*nums[i];
+            if(d[x]!=0){
+                d[x]++;
             }
             else{
-                dp[i]=max(dp[i-1]-d[nums[i-1]]*nums[i-1]+d[nums[i]]*nums[i],dp[i-1]);
+                v.push_back(x);
+                d[x]++;
             }
-            if(i>1){
-                dp[i]=max(dp[i],dp[i-2]+d[nums[i]]*nums[i]);
+        }
+        int n=v.size();
+        sort(v.begin(),v.end());
+        if(n==1){
+            return v[0]*d[v[0]];
+        }
+        if(n==2){
+            if(v[1]==v[0]+1){
+            return max(v[0]*d[v[0]],v[1]*d[v[1]]);
+            }
+            else{
+                return v[0]*d[v[0]]+v[1]*d[v[1]];
+            }
+        }
+        int dp[50'000];
+        dp[0]=v[0]*d[v[0]];
+        if(v[0]+1==v[1]){
+            dp[1]=max(v[1]*d[v[1]],dp[0]);
+        }
+        else{
+            dp[1]=v[1]*d[v[1]]+v[0]*d[v[0]];
+        }
+        for(int i=2;i<n;i++){
+            if(v[i]==v[i-1]+1){
+                dp[i]=max(dp[i-1],dp[i-2]+v[i]*d[v[i]]);
+            }
+            else{
+                dp[i]=dp[i-1]+v[i]*d[v[i]];
             }
         }
         return max(dp[n-1],dp[n-2]);
