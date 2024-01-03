@@ -1,30 +1,25 @@
 class Solution {
 public:
-    int minimumTotal(vector<vector<int>>& grid) {
-        int n=grid.size();
+    int minimumTotal(vector<vector<int>>& t) {
+        int n=t.size();
         if(n==1){
-            return grid[0][0];
+            return t[0][0];
         }
-        vector<vector<int>>dp(n,vector<int>(grid[n-1].size(),0));
-        dp[0][0]=grid[0][0];
-        dp[1][0]=dp[0][0]+grid[1][0];
-        dp[1][1]=dp[0][0]+grid[1][1];
-        int m=2;
+        int dp[n][n];
+        dp[0][0]=t[0][0];
+        dp[1][0]=dp[0][0]+t[1][0];
+        dp[1][1]=dp[0][0]+t[1][1];
         for(int i=2;i<n;i++){
-            m++;
-            dp[i][0]=grid[i][0]+dp[i-1][0];
-            for(int j=1;j<m-2;j++){
-                dp[i][j]=grid[i][j]+min(dp[i-1][j],dp[i-1][j-1]);
+            dp[i][0]=dp[i-1][0]+t[i][0];
+            for(int j=1;j<i;j++){
+                dp[i][j]=min(dp[i-1][j],dp[i-1][j-1])+t[i][j];
             }
-            dp[i][m-1]=grid[i][m-1]+dp[i-1][m-2];
-            dp[i][m-2]=grid[i][m-2]+min(dp[i-1][m-2],dp[i-1][m-3]);
+            dp[i][i]=dp[i-1][i-1]+t[i][i];
         }
-        for(auto x:dp){
-            for(auto y:x){
-                cout<<y<<" ";
-            }
-            cout<<endl;
+        int ans=dp[n-1][n-1];
+        for(int i=0;i<n;i++){
+            ans=min(ans,dp[n-1][i]);
         }
-        return *min_element(dp[n-1].begin(),dp[n-1].end());
+        return ans;
     }
 };
