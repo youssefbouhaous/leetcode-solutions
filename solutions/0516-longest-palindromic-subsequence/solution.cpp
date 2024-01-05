@@ -1,28 +1,42 @@
 class Solution {
 public:
     int longestPalindromeSubseq(string s) {
-        int ans=1;
         int n=s.size();
-        vector<vector<int>>dp(n,vector<int>(n,0));
-        for(int i=0;i<n;i++){
-            dp[i][i]=1;
+        int dp[n][n];
+        string a=s;
+        reverse(s.begin(),s.end());
+        if(s[0]==a[0]){
+            dp[0][0]=1;
         }
-        for(int c=1;c<n;c++){
-            for(int i=0;i<n-c;i++){
-                if(s[i]==s[i+c]){
-                    dp[i][i+c]=2+dp[i+1][i+c-1];
+        else{
+            dp[0][0]=0;
+        }
+        for(int i=1;i<n;i++){
+            if(s[i]==a[0]){
+                dp[i][0]=1;
+            }
+            else{
+                dp[i][0]=dp[i-1][0];
+            }
+        }
+        for(int i=1;i<n;i++){
+            if(s[0]==a[i]){
+                dp[0][i]=1;
+            }
+            else{
+                dp[0][i]=dp[0][i-1];
+            }
+        }
+        for(int i=1;i<n;i++){
+            for(int j=1;j<n;j++){
+                if(s[i]==a[j]){
+                    dp[i][j]=dp[i-1][j-1]+1;
                 }
                 else{
-                    dp[i][i+c]=max(dp[i][i+c-1],dp[i+1][i+c]);
+                    dp[i][j]=max({dp[i-1][j-1],dp[i-1][j],dp[i][j-1]});
                 }
             }
-        }/*
-        for(auto x:dp){
-            for(auto y:x){
-                cout<<y<<" ";
-            }
-            cout<<endl;
-        }*/
-        return dp[0][n-1];
+        }
+        return dp[n-1][n-1];
     }
 };
