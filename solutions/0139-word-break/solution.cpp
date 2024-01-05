@@ -1,25 +1,31 @@
 class Solution {
 public:
-    bool wordBreak(string s, vector<string>& word) {
-        set<string>st;
-        for(auto x:word){
-            st.insert(x);
+    bool ans=false;
+    map<pair<string,int>,bool>d;
+    void f(int i,string s,vector<string>& wordDict){
+        if(i>=s.size()){
+            ans=true;
+            return;
         }
-        int n=s.size();
-        vector<bool>dp(n+1,0);
-        dp[n]=1;
-        for(int i=n-1;i>-1;i--){
-            string tmp;
-            for(int j=i;j<n;j++){
-                tmp.push_back(s[j]);
-                
-                if(st.find(tmp)!=st.end()){
-                    if(dp[i]==0)
-                    dp[i]=dp[j+1];
+        for(auto x:wordDict){
+            bool fg=true;
+            if(i+x.size()>s.size()){
+                continue;
+            }
+            for(int j=0;j<x.size();j++){
+                if(s[j+i]!=x[j]){
+                    fg=false;
+                    break;
                 }
-                cout<<tmp<<" i "<<i<<" j "<<j<<" dp : "<<dp[i]<<endl;
+            }
+            if(fg && d[{x,i+x.size()}]!=true){
+                d[{x,i+x.size()}]=true;
+                f(i+x.size(),s,wordDict);
             }
         }
-        return dp[0];
+    }
+    bool wordBreak(string s, vector<string>& wordDict) {
+        f(0,s,wordDict);
+        return ans;
     }
 };
