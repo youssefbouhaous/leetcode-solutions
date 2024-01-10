@@ -1,47 +1,29 @@
 class Solution {
 public:
     vector<int> nextGreaterElements(vector<int>& nums) {
-        vector<int>ans;
-        if(nums.size()==1){
-            ans.push_back(-1);
-            return ans;
-        }
-        else if(nums.size()==2){
-            if(nums[0]==nums[1]){
-                ans.push_back(-1);
-                ans.push_back(-1);
-                return ans;
+        
+        stack<int>st;
+        int n=nums.size();
+        vector<int>ans(n,-1);
+        int m=*max_element(nums.begin(),nums.end());
+        for(int i=0;i<2*n;i++){
+            if(nums[i%n]==m){
+                continue;
             }
-            else if(nums[0]>nums[1]){
-                ans.push_back(-1);
-                ans.push_back(nums[0]);
+            else if(nums[i%n]<nums[(i+1)%n]){
+                ans[i%n]=nums[(i+1)%n];
+                int mm=st.size();
+                while(mm--){
+                    if(nums[st.top()]<ans[i%n]){
+                    ans[st.top()]=ans[i%n];
+                    st.pop();
+                    }
+                }
             }
             else{
-                ans.push_back(nums[1]);
-                ans.push_back(-1);
+                st.push(i%n);
             }
         }
-        int m=*max_element(nums.begin(),nums.end());
-        int n=nums.size();
-        for(int i=0;i<n;i++){
-            int j=i+1;
-            j=j%n;
-            while(nums[j]!=m){
-                if(nums[j]>nums[i]){
-                    ans.push_back(nums[j]);
-                    break;
-                }
-                j++;
-                j=j%n;
-            }
-            if(ans.size()<i+1 && nums[i]!=m){
-                ans.push_back(m);
-            }
-            else if(ans.size()<i+1){
-                ans.push_back(-1);
-            }
-        }
-        
         return ans;
     }
 };
