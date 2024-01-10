@@ -1,28 +1,30 @@
 class Solution {
 public:
-    int minimumDeleteSum(string s1, string s2) {
-        int n=s1.size();
-        int m=s2.size();
-        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
-        for(int j=m-1;j>-1;j--){
-            dp[n][j]=dp[n][j+1]+s2[j];
+    int minimumDeleteSum(string a, string b) {
+        int n=a.size();
+        int m=b.size();
+        int dp[n+1][m+1];
+        dp[n][m]=0;
+        for(int i=m-1;i>-1;i--){
+            dp[n][i]=b[i]+dp[n][i+1];
         }
         for(int i=n-1;i>-1;i--){
-            dp[i][m]=dp[i+1][m]+s1[i];
+            dp[i][m]=a[i]+dp[i+1][m];
         }
         for(int i=n-1;i>-1;i--){
             for(int j=m-1;j>-1;j--){
-                if(s1[i]==s2[j]){
+                if(a[i]==b[j]){
                     dp[i][j]=dp[i+1][j+1];
                 }
                 else{
-                    dp[i][j]=min(s1[i]+dp[i+1][j],min(s2[j]+dp[i][j+1],s1[i]+s2[j]+dp[i+1][j+1]));
+                    dp[i][j]=min({dp[i+1][j]+a[i],dp[i][j+1]+b[j],dp[i+1][j+1]+a[i]+b[j]});
                 }
             }
-        }/*
-        for(auto x:dp){
-            for(auto y:x){
-                cout<<y<<" ";
+        }
+        /*
+        for(int i=0;i<=n;i++){
+            for(int j=0;j<=m;j++){
+                cout<<dp[i][j]<<" ";
             }
             cout<<endl;
         }*/
