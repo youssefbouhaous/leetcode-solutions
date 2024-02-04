@@ -1,5 +1,10 @@
 class Solution {
 public:
+    Solution() {
+        std::ios_base::sync_with_stdio(false);
+        std::cin.tie(nullptr);
+        std::cout.tie(NULL);
+    }
     int ans=0;
     void dfs(int x,int val,map<int,vector<int>>&g,vector<int>& info){
         val+=info[x];
