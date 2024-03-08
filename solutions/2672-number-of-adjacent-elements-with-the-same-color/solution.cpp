@@ -4,7 +4,7 @@ public:
         vector<int>v;
         int ans=0;
         set<pair<int,int>>st;
-        map<int,int>d;
+        unordered_map<int,int>d;
         for(int i=0;i<n;i++){
             st.insert({i,0});
         }
