@@ -1,20 +1,25 @@
 class Solution {
     public int hIndex(int[] c) {
         Arrays.sort(c);
+        int l=0;
+        int r=c.length;
         int n=c.length;
         int ans=0;
-        int mx=c[n-1];
-        for(int i=0;i<=mx;i++){
-            int cc=0;
-            for(int j=0;j<n;j++){
-                if(c[j]>=i){
-                    cc++;
+        while(l<r){
+            int m=(l+r+1)/2;
+            int ccc=0;
+            for(int i=0;i<n;i++){
+                if(c[i]>=m){
+                    ccc++;
                 }
             }
-            if(cc>=i){
-                ans=Math.max(ans,i);
+            if(ccc>=m){
+                l=m;
+            }
+            else{
+                r=m-1;
             }
         }
-        return ans;
+        return l;
     }
 }
