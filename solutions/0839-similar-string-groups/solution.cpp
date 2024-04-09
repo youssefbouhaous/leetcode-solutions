@@ -2,8 +2,8 @@ class Solution {
 public:
 
 
-    map<string,string>parent;
-    map<string,int>rank;
+    unordered_map<string,string>parent;
+    unordered_map<string,int>rank;
     void make(string v){
         parent[v]=v;
         rank[v]=0;
