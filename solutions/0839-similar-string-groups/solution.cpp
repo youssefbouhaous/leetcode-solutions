@@ -1,7 +1,5 @@
 class Solution {
 public:
-
-
     unordered_map<string,string>parent;
     unordered_map<string,int>rank;
     void make(string v){
@@ -9,7 +7,6 @@ public:
         rank[v]=0;
     }
     string find(string v){
-        if(parent[v]=="") return parent[v]=v;
         if(parent[v]== v)return v;
         return parent[v]=find(parent[v]);
     }
@@ -28,10 +25,8 @@ public:
         }
     }
     int numSimilarGroups(vector<string>& strs) {
-        set<string>st;
         for(auto x:strs){
             make(x);
-            st.insert(x);
         }
         int n=strs.size();
         for(int i=0;i<n;i++){
@@ -50,7 +45,7 @@ public:
                 }
             }
         }
-        map<string,bool>deja;
+        unordered_map<string,bool>deja;
         int ans=0;
         for(auto x:strs){
             if(!deja[find(x)]){
