@@ -37,10 +37,12 @@ public:
         for(int i=0;i<n;i++){
             for(int j=i+1;j<n;j++){
                 vector<int>d;
-                
                 for(int l=0;l<strs[0].size();l++){
                     if(strs[i][l]!=strs[j][l]){
                         d.push_back(l);
+                    }
+                    if(d.size()>2){
+                        break;
                     }
                 }
                 if(d.size()==2 && strs[i][d[0]]==strs[j][d[1]] && strs[i][d[1]]==strs[j][d[0]]){
