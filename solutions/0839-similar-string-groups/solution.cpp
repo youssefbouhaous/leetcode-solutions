@@ -37,6 +37,9 @@ public:
         for(int i=0;i<n;i++){
             for(int j=i+1;j<n;j++){
                 vector<int>d;
+                if(find(strs[i])==find(strs[j])){
+                    continue;
+                }
                 for(int l=0;l<strs[0].size();l++){
                     if(strs[i][l]!=strs[j][l]){
                         d.push_back(l);
