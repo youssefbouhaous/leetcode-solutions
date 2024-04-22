@@ -7,17 +7,18 @@ public:
         else if(x==0){
             return 0;
         }
-        double ans=1;
+        double res=1;
         int b=abs(n);
         while(b>0){
-            if (b & 1)
-                ans = ans * x;
-            x = x * x;
-            b >>= 1;
+            if(b&1){
+                res = res*x;
+            }
+            x=x*x;
+            b>>=1;
         }
         if(n<0){
-            ans=1/ans;
+            res=1/res;
         }
-        return ans;
+        return res;
     }
 };
