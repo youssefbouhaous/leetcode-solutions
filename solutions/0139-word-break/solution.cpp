@@ -1,31 +1,25 @@
 class Solution {
 public:
-    bool ans=false;
-    map<pair<string,int>,bool>d;
-    void f(int i,string s,vector<string>& wordDict){
-        if(i>=s.size()){
-            ans=true;
-            return;
-        }
-        for(auto x:wordDict){
-            bool fg=true;
-            if(i+x.size()>s.size()){
-                continue;
-            }
-            for(int j=0;j<x.size();j++){
-                if(s[j+i]!=x[j]){
-                    fg=false;
-                    break;
+    bool wordBreak(string s, vector<string>& d) {
+        vector<bool>dp(s.size());
+        for(auto x:d){
+            if(s.size()>=x.size()){
+                if(s.substr(0,x.size())==x){
+                    dp[x.size()-1]=true;
                 }
             }
-            if(fg && d[{x,i+x.size()}]!=true){
-                d[{x,i+x.size()}]=true;
-                f(i+x.size(),s,wordDict);
+        }
+        for(int i=1;i<s.size();i++){
+            if(dp[i-1]==true){
+                for(auto x:d){
+                    if(s.size()-i>=x.size()){
+                        if(s.substr(i,x.size())==x){
+                            dp[x.size()+i-1]=true;
+                        }
+                    }
+                }
             }
         }
-    }
-    bool wordBreak(string s, vector<string>& wordDict) {
-        f(0,s,wordDict);
-        return ans;
+        return dp[s.size()-1];
     }
 };
