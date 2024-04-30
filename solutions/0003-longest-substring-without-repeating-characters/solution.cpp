@@ -10,7 +10,7 @@ public:
                 l=max(c[s[r]],l);
             }
             ans=max(r-l+1,ans);
-            cout<<" "<<s[r] <<" "<<ans<<" "<<" "<<r<<" "<<l<<endl;
+            //cout<<" "<<s[r] <<" "<<ans<<" "<<" "<<r<<" "<<l<<endl;
             c[s[r]]=r+1;
             r++;
         }
