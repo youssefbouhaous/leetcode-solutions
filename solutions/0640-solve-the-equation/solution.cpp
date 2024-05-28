@@ -30,8 +30,8 @@ public:
                     i++;
                     continue;
                 }
-                cout<<num<<" ";
-                cout<<"r here f :"<<r<<endl;
+                //cout<<num<<" ";
+                //cout<<"r here f :"<<r<<endl;
                 r-=stoi(num);
             }
         }
@@ -63,10 +63,10 @@ public:
                     continue;
                 }
                 r+=stoi(num);
-                cout<<"r here s :"<<r<<endl;
+                //cout<<"r here s :"<<r<<endl;
             }
         }
-        cout<<r<<" "<<x<<endl;
+        //cout<<r<<" "<<x<<endl;
         if(x==0 && r==0){
             return "Infinite solutions";
         }
