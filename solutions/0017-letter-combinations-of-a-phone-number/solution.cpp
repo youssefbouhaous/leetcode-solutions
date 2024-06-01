@@ -1,29 +1,28 @@
 class Solution {
 public:
-    map<char,string>m;
+    map<int,string>numToLetter;
     vector<string>ans;
-    void f(string d,string tmp,int i=0){
-        if(i==d.size()){
-            if(tmp!="")
-            ans.push_back(tmp);
-            return ;
+    void f(int i,string a,string& b){
+        if(a.size()==b.size() && a!=""){
+            ans.push_back(a);
         }
-        for(auto x:m[d[i]]){
-            tmp.push_back(x);
-            f(d,tmp,i+1);
-            tmp.pop_back();
+        for(auto x:numToLetter[b[i]-'0']){
+            a.push_back(x);
+            f(i+1,a,b);
+            a.pop_back();
         }
     }
-    vector<string> letterCombinations(string d) {    
-        m['2']="abc";
-        m['3']="def";
-        m['4']="ghi";
-        m['5']="jkl";
-        m['6']="mno";
-        m['7']="pqrs";
-        m['8']="tuv";
-        m['9']="wxyz";
-        f(d,"");
+    vector<string> letterCombinations(string digits) {
+        numToLetter[2]="abc";
+        numToLetter[3]="def";
+        numToLetter[4]="ghi";
+        numToLetter[5]="jkl";
+        numToLetter[6]="mno";
+        numToLetter[7]="pqrs";
+        numToLetter[8]="tuv";
+        numToLetter[9]="wxyz";
+        string tmp="";
+        f(0,tmp,digits);
         return ans;
     }
 };
