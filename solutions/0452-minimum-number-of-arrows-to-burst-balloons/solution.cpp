@@ -1,25 +1,18 @@
 class Solution {
 public:
     int findMinArrowShots(vector<vector<int>>& points) {
-        int ans=0;
-        priority_queue<pair<int,int>>v;
-        for(auto x:points){
-            v.push({x[0],x[1]});
-        }
-        while(v.size()>=2){
-            pair<int,int>p=v.top();
-            v.pop();
-            pair<int,int>p2=v.top();
-            v.pop();
-            if((p.first<=p2.second && p.second>=p2.first) || (p2.first<=p.second && p2.second>=p.first)){
-                pair<int,int>o={max(p.first,p2.first),min(p.second,p2.second)};
-                v.push(o);
+        vector<vector<int>>ans;
+        sort(points.begin(),points.end());
+        ans.push_back(points[0]);
+        for(int i=0;i<points.size();i++){
+            if(ans.back()[1]>=points[i][0]){
+                ans.back()[1]=min(ans.back()[1],points[i][1]);
+                ans.back()[0]=max(ans.back()[0],points[i][0]);
             }
             else{
-                ans++;
-                v.push(p2);
+                ans.push_back(points[i]);
             }
         }
-        return ans+v.size();
+        return ans.size();
     }
 };
