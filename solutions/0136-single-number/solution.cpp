@@ -1,10 +1,10 @@
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        int r=0;
+        int c=0;
         for(auto x:nums){
-            r^=x;
+            c^=x;
         }
-        return r;
+        return c;
     }
 };
