@@ -1,25 +1,27 @@
 class Solution {
 public:
-    int minimumTotal(vector<vector<int>>& t) {
-        int n=t.size();
-        if(n==1){
-            return t[0][0];
+    int minimumTotal(vector<vector<int>>& triangle) {
+        vector<vector<int>>dp;
+        dp.push_back(triangle[0]);
+        int n=triangle.size();
+        if(n>1){
+            vector<int>tmp={triangle[1][0]+triangle[0][0],triangle[1][1]+triangle[0][0]};
+            dp.push_back(tmp);
         }
-        int dp[n][n];
-        dp[0][0]=t[0][0];
-        dp[1][0]=dp[0][0]+t[1][0];
-        dp[1][1]=dp[0][0]+t[1][1];
         for(int i=2;i<n;i++){
-            dp[i][0]=dp[i-1][0]+t[i][0];
+            vector<int>tmp;
+            tmp.push_back(dp[i-1][0]+triangle[i][0]);
             for(int j=1;j<i;j++){
-                dp[i][j]=min(dp[i-1][j],dp[i-1][j-1])+t[i][j];
+                tmp.push_back(triangle[i][j]+min(dp[i-1][j],dp[i-1][j-1]));
             }
-            dp[i][i]=dp[i-1][i-1]+t[i][i];
+            tmp.push_back(dp[i-1][i-1]+triangle[i][i]);
+            dp.push_back(tmp);
         }
-        int ans=dp[n-1][n-1];
-        for(int i=0;i<n;i++){
-            ans=min(ans,dp[n-1][i]);
+        int m=dp[n-1][0];
+        for(auto x:dp[n-1]){
+            m=min(m,x);
         }
-        return ans;
+        
+        return m;
     }
 };
