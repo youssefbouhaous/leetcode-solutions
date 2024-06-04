@@ -1,30 +1,29 @@
 class Solution {
 public:
-    int m,n;
-    map<pair<int,int>,bool>v;
+    map<pair<int,int>,bool>visited;
+    int n,m;
     bool valid(int i,int j){
-        return 0<=i && i<m && 0<=j && j<n;
+        return i>=0 && i<n && j>=0 && j<m;
     }
-    void bfs(int i,int j,vector<vector<char>>& grid){
-        if(valid(i,j) && v[{i,j}]!=true && grid[i][j]=='1'){
-            v[{i,j}]=true;
-            bfs(i+1,j,grid);
-            bfs(i-1,j,grid);
-            bfs(i,j+1,grid);
-            bfs(i,j-1,grid);
+    void dfs(int i,int j,vector<vector<char>>& grid){
+        if(!valid(i,j) || visited[{i,j}] || grid[i][j]!='1'){
+            return;
         }
-        
+        visited[{i,j}]=true;
+        dfs(i+1,j,grid);
+        dfs(i-1,j,grid);
+        dfs(i,j+1,grid);
+        dfs(i,j-1,grid);
     }
     int numIslands(vector<vector<char>>& grid) {
+        n=grid.size();
+        m=grid[0].size();
         int ans=0;
-        v.clear();
-        m=grid.size();
-        n=grid[0].size();
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(v[{i,j}]!=true && grid[i][j]=='1'){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(!visited[{i,j}] && grid[i][j]=='1'){
                     ans++;
-                    bfs(i,j,grid);
+                    dfs(i,j,grid);
                 }
             }
         }
