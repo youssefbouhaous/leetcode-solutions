@@ -7,7 +7,7 @@ public:
             for(auto x:nums){
                 sum+=(x>>i)&1;
             }
-            ans+=((sum%3)<<i);
+            ans|=((sum%3)<<i);
         }
         return ans;
     }
