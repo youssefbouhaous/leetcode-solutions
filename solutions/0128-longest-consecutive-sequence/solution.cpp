@@ -5,19 +5,25 @@ public:
         if(n==0){
             return 0;
         }
-        int c=1;
-        int m=1;
-        set<int>st(nums.begin(),nums.end());
-        vector<int>nm(st.begin(),st.end());
-        for(int i=0;i<nm.size()-1;i++){
-            if(nm[i]+1==nm[i+1]){
-                c++;
-                m=max(m,c);
+        set<int>st;
+        for(auto x:nums){
+            st.insert(x);
+        }
+        int count=1;
+        int ans=1;
+        int last=*st.begin();
+        st.erase(st.begin());
+        for(auto x:st){
+            if(last+1==x){
+                count++;
+                last=x;
             }
             else{
-                c=1;
+                count=1;
+                last=x;
             }
+            ans=max(ans,count);
         }
-        return m;
+        return ans;
     }
 };
