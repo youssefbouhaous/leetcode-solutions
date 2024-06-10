@@ -3,8 +3,8 @@ public:
     int subarraysDivByK(vector<int>& nums, int k) {
         int n=nums.size();
         int ans=0;
-        long long int s=0;
-        unordered_map<long long int,int>d;
+        int s=0;
+        unordered_map<int,int>d;
         d[0]=1;
         for(int i=0;i<n;i++){
             s = (s + nums[i]) % k;
@@ -15,7 +15,6 @@ public:
             }
             d[s]++;
         }
-        
         return ans;
     }
 };
