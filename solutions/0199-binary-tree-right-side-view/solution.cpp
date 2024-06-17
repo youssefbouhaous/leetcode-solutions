@@ -10,45 +10,29 @@
  * };
  */
 class Solution {
-public:
+    public:
     vector<int> rightSideView(TreeNode* root) {
-        queue<pair<TreeNode*,int>>q;
-        q.push({root,1});
-        vector<int>ans; 
+        vector<int>ans;
         if(root==nullptr){
             return ans;
         }
-        int i=0;
+        queue<pair<TreeNode*,int>>q;
+        map<int,bool>l;
+        q.push({root,0});
+        l[0]=true;
         ans.push_back(root->val);
         while(!q.empty()){
-            TreeNode* next=q.front().first;
-            int l=q.front().second;
+            auto nxt=q.front();
             q.pop();
-            
-            if(ans.size()<=l){
-                if(next->left!=nullptr){
-                    ans.push_back((next->left)->val);
-                    q.push({next->left,l+1});
-                }
-                if(next->right!=nullptr){
-                    q.push({next->right,l+1});
-                    if(ans.size()<=l){
-                        ans.push_back((next->right)->val);
-                    }
-                    else{
-                        ans[l]=(next->right)->val;
-                    }
-                }
+            if(!l[nxt.second]){
+                l[nxt.second]=true;
+                ans.push_back(nxt.first->val);
             }
-            else{
-                if(next->left!=nullptr){
-                    ans[l]=((next->left)->val);
-                    q.push({next->left,l+1});
-                }
-                if(next->right!=nullptr){
-                    q.push({next->right,l+1});
-                    ans[l]=(next->right)->val;
-                }
+            if(nxt.first->right!=nullptr){
+                q.push({nxt.first->right,nxt.second+1});
+            }
+            if(nxt.first->left!=nullptr){
+                q.push({nxt.first->left,nxt.second+1});
             }
         }
         return ans;
