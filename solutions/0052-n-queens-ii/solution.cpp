@@ -11,12 +11,12 @@ public:
             return;
         }
         for(int j=0;j<n;j++){
-            if(cols[j] || diag1[i+j] || diag2[j-i-1]){
+            if(cols[j] || diag1[i+j] || diag2[j-i]){
                 continue;
             }
-            cols[j]=diag1[i+j]=diag2[j-i-1]=true;
+            cols[j]=diag1[i+j]=diag2[j-i]=true;
             dfs(i+1);
-            cols[j]=diag1[i+j]=diag2[j-i-1]=false;
+            cols[j]=diag1[i+j]=diag2[j-i]=false;
         }
     }
     int totalNQueens(int nn) {
