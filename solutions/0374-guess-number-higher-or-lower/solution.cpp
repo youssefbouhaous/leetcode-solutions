@@ -9,21 +9,19 @@
 
 class Solution {
 public:
+    long l=1;
+    long r=2147483647;
     int guessNumber(int n) {
-        int o=guess(n/2);
-        long long  r=n;
-        long long l=0;
-        while(l<=r){
-            if(guess((l+r)/2)==0){
-                return (l+r)/2;
+        int m=(l+r)/2;
+        while(guess(m)!=0){
+            m=(l+r)/2;
+            if(guess(m)==-1){
+                r=m-1;
             }
-            else if(guess((l+r)/2)==-1){
-                r=(l+r)/2-1;
-            }
-            else{
-                l=(l+r)/2+1;
+            else if(guess(m)==1){
+                l=m+1;
             }
         }
-        return (l+r)/2;
+        return m;
     }
 };
