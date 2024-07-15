@@ -26,9 +26,7 @@ public:
                 tmp.clear();
             }
         }
-        for(auto x:tokens){
-            cout<<x.first<<" "<<x.second<<endl;
-        }
+        
         stack<map<string,int>>st;
         map<string,int>ans;
         st.push(ans);
@@ -42,10 +40,7 @@ public:
                 i++;
             }
             else if(tokens[i].first==")"){
-                cout<<i<<" ||###### "<<endl;
-                for(auto x:st.top()){
-                    cout<<x.first<<' '<<x.second<<endl;
-                }
+                
                 if(i+1<n && tokens[i+1].second==2){
                     for(auto& x:st.top()){
                         x.second*=stoi(tokens[i+1].first);
@@ -58,14 +53,10 @@ public:
                 for(auto x:it){
                     st.top()[x.first]+=x.second;
                 }
-                for(auto x:st.top()){
-                    cout<<x.first<<' '<<x.second<<endl;
-                }
                 i++;
             }
             else{
                 if(tokens[i].second==1){
-                    cout<<i<<" "<<tokens[i].first<<endl;
                     if(i+1<n && tokens[i+1].second==2){
                         st.top()[tokens[i].first]+=stoi(tokens[i+1].first);
                         i++;
@@ -73,17 +64,9 @@ public:
                     else{
                         st.top()[tokens[i].first]++;
                     }
-                    cout<<"no par\n";
-                    for(auto x:st.top()){
-                        cout<<x.first<<' '<<x.second<<endl;
-                    }
                 }
                 i++;
             }
-        }
-        cout<<"--------"<<endl;
-        for(auto x:st.top()){
-            cout<<x.first<<" "<<x.second<<endl;
         }
         string ansf;
 
