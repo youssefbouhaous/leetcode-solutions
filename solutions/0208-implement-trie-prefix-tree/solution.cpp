@@ -1,52 +1,45 @@
-class Trie {
+class TrieNode {
 public:
-    struct TreeNode{
-        unordered_map<char,TreeNode*>children;
-        bool is_end=false;
-    };
-    TreeNode* root;
-    Trie() {
-        root=new TreeNode();
-    }
-    
-    void insert(string word) {
-        TreeNode* cur=root;
-        for(char ch:word){
-            if(cur->children.find(ch)==cur->children.end()){
-                cur->children[ch]=new TreeNode();
-            }
-            cur=cur->children[ch];
-        }
-        cur->is_end=true;
-    }
-    
-    bool search(string word) {
-        TreeNode* cur=root;
-        for(char ch:word){
-            if(cur->children.find(ch)==cur->children.end()){
-                return false;
-            }
-            cur=cur->children[ch];
-        }
-        return cur->is_end;
-    }
-    
-    bool startsWith(string prefix) {
-        TreeNode* cur=root;
-        for(char ch:prefix){
-            if(cur->children.find(ch)==cur->children.end()){
-                return false;
-            }
-            cur=cur->children[ch];
-        }
-        return cur!=nullptr;
+    unordered_map<char, TrieNode*> children;
+    bool isEnd;
+    TrieNode() {
+        isEnd = false;
     }
 };
-
-/**
- * Your Trie object will be instantiated and called as such:
- * Trie* obj = new Trie();
- * obj->insert(word);
- * bool param_2 = obj->search(word);
- * bool param_3 = obj->startsWith(prefix);
- */
+class Trie {
+public:
+    TrieNode* root;
+    Trie() {
+        root = new TrieNode();
+    }
+    void insert(string word) {
+        TrieNode* node = root;
+        for (char c : word) {
+            if (node->children.find(c) == node->children.end()) {
+                node->children[c] = new TrieNode();
+            }
+            node = node->children[c];
+        }
+        node->isEnd = true;
+    }
+    bool search(string word) {
+        TrieNode* node = root;
+        for (char c : word) {
+            if (node->children.find(c) == node->children.end()) {
+                return false;
+            }
+            node = node->children[c];
+        }
+        return node->isEnd;
+    }
+    bool startsWith(string prefix) {
+        TrieNode* node = root;
+        for (char c : prefix) {
+            if (node->children.find(c) == node->children.end()) {
+                return false;
+            }
+            node = node->children[c];
+        }
+        return true;
+    }
+};
