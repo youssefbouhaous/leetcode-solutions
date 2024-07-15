@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    map<int,pair<int,int>>tree;
+    unordered_map<int,pair<int,int>>tree;
     void construct(TreeNode* node,int ele){
         TreeNode* left;
         TreeNode* right;
@@ -28,7 +28,7 @@ public:
 
     }
     TreeNode* createBinaryTree(vector<vector<int>>& d) {
-        map<int,bool>v;
+        unordered_map<int,bool>v;
         for(auto x:d){
             v[x[1]]=true;
             if(x[2]==1){
