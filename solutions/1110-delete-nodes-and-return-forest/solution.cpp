@@ -66,7 +66,7 @@ public:
                 
         }
         for(auto x:tree){
-            cout<<x.first->val<<"parent"<<(parent[node[x.first->val]]->val)<<endl;
+            //cout<<x.first->val<<"parent"<<(parent[node[x.first->val]]->val)<<endl;
             if(!vis[x.first] && !dd.count(x.first->val)){
                 ans.push_back(pp(x.first));
                 dfs2(pp(x.first));
