@@ -21,7 +21,6 @@ public:
                 else
                     ans+=preMax[j];
             }
-            cout<<rating[i]<<" "<<ans<<endl;
         }
         return ans;
     }
