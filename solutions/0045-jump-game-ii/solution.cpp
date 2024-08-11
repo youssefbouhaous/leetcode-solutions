@@ -16,8 +16,13 @@ class Solution {
 public:
     int jump(vector<int>& nums) {
         n=nums.size();
-        dp.resize(n);
-        f(0,nums);
-        return dp[0];
+        dp.resize(n,INF);
+        dp[0]=0;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<min(i+nums[i]+1,n);j++){
+                dp[j]=min(dp[j],dp[i]+1);
+            }
+        }
+        return dp[n-1];
     }
 };
