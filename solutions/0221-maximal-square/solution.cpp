@@ -1,41 +1,29 @@
 class Solution {
 public:
-    int maximalSquare(vector<vector<char>>& matrix) {
+    int maximalSquare(vector<vector<char>>& mx) {
+        int n=mx.size();
+        int m=mx[0].size();
+        vector<vector<int>>matrix(n,vector<int>(m));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                matrix[i][j]=(mx[i][j]=='1') ? 1 : 0;
+            }
+        }
         int ans=0;
-        int n=matrix.size();
-        int m=matrix[0].size();
-        int dp[n][m];
-        dp[0][0]=0;
-        if(matrix[0][0]=='1'){
-            dp[0][0]=1;
-            ans=1;
+        for(int i=0;i<n;i++){
+            ans=max(ans,matrix[i][0]);
         }
-        for(int i=1;i<n;i++){
-            dp[i][0]=0;
-            if(matrix[i][0]!='0'){
-                dp[i][0]=1;
-                ans=1;
-            }
+        for(int j=0;j<m;j++){
+            ans=max(ans,matrix[0][j]);
         }
-        for(int i=1;i<m;i++){
-            dp[0][i]=0;
-            if(matrix[0][i]!='0'){
-                dp[0][i]=1;
-                ans=1;
-            }
-        }
-        
         for(int i=1;i<n;i++){
             for(int j=1;j<m;j++){
-                int tmp=min({dp[i-1][j-1],dp[i][j-1],dp[i-1][j]});
-                if(matrix[i][j]!='0'){
-                    dp[i][j]=tmp+1;
+                if(matrix[i][j]==0) continue;
+                if(matrix[i-1][j]>0 && matrix[i][j-1]>0 && matrix[i-1][j-1]>0){
+                    matrix[i][j]=min({matrix[i-1][j],matrix[i][j-1],matrix[i-1][j-1]})+1;
                 }
-                else{
-                    dp[i][j]=0;
-                }
-                ans=max(ans,dp[i][j]);
-            }    
+                ans=max(ans,matrix[i][j]);
+            }
         }
         return ans*ans;
     }
