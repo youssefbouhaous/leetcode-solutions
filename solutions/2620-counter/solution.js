@@ -2,15 +2,10 @@
  * @param {number} n
  * @return {Function} counter
  */
- 
 var createCounter = function(n) {
-    var a=-1001;
+    var c=n;
     return function() {
-        if(a==-1001){
-        a=n-1;
-        }
-        a++;
-        return a;
+        return c++;
     };
 };
 
