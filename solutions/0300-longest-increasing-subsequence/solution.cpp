@@ -1,10 +1,10 @@
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        multiset<int>st;
+        set<int>st;
         st.insert(nums[0]);
         for(int i=1;i<nums.size();i++){
-            if(nums[i]>*(--st.end())){
+            if(nums[i]>(*(--st.end()))){
                 st.insert(nums[i]);
             }
             else{
