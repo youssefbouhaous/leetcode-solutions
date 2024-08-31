@@ -1,15 +1,25 @@
 class Solution {
+    int fe;
+    vector<int>p;
+    int dp[50005][2];
+    int f(int i,int c){
+        if(i>=p.size()){
+            return dp[i][c]=0;
+        }
+        if(dp[i][c]!=-1) return dp[i][c];
+        if(c==0){
+            return dp[i][c]=max(-p[i]+f(i+1,1),f(i+1,0));
+        }
+        return dp[i][c]=max(-fe+p[i]+f(i+1,0),f(i+1,1));
+    }
 public:
     int maxProfit(vector<int>& prices, int fee) {
-        ios::sync_with_stdio(false); cin.tie(NULL);cout.tie(NULL);
-        int dp[50'005][2];
-        dp[0][0]=0;
-        dp[0][1]=-prices[0];
-        int n=prices.size();
-        for(int i=1;i<n;i++){
-            dp[i][0]=max(dp[i-1][1]+prices[i]-fee,dp[i-1][0]);
-            dp[i][1]=max(dp[i-1][0]-prices[i],dp[i-1][1]);
+        fe=fee;
+        p=prices;
+        for(int i=0;i<50005;i++){
+            dp[i][0]=-1;
+            dp[i][1]=-1;
         }
-        return max(dp[n-1][0],dp[n-1][1]);
+        return f(0,0);
     }
 };
