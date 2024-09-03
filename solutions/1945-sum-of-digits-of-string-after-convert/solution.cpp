@@ -12,7 +12,6 @@ public:
                 ans+=x-'0';
             }
             o=to_string(ans);
-            cout<<ans<<endl;
         }
         return ans;
     }
