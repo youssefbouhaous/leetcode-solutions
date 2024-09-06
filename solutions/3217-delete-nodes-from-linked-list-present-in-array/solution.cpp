@@ -1,29 +1,41 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
     ListNode* modifiedList(vector<int>& nums, ListNode* head) {
-        set<int>st;
-        for(auto x:nums){
-            st.insert(x);
-        }
-        ListNode* tmp=head;
-        ListNode* ans=head;
-        if(st.count(tmp->val)){
-            while(tmp!=nullptr && st.count(tmp->val)){
-                tmp=tmp->next;
-            }
-        }
-        ans=tmp;
-        ListNode* prev=tmp;
-        while(tmp!=nullptr){
-            if(st.count(tmp->val)){
-                prev->next=tmp->next;
-                tmp=tmp->next;
+       set<int>st;
+       for(auto x:nums){
+        st.insert(x);
+       } 
+       while(head!=nullptr){
+            if(st.count(head->val)){
+                head=head->next;
             }
             else{
-                prev=tmp;
-                tmp=tmp->next;
+                break;
             }
-        }
-        return ans;
+       }
+       if(head==nullptr) return head;
+       ListNode* prev=head;
+       ListNode* cur=head->next;
+       while(cur!=nullptr){
+            if(st.count(cur->val)){
+                prev->next=cur->next;
+                cur=prev->next;
+            }
+            else{
+                prev=cur;
+                cur=cur->next;
+            }
+       }
+       return head;
     }
 };
