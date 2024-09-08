@@ -1,33 +1,37 @@
 class Solution {
 public:
-    void f(int x,map<int,vector<int>>&g,vector<bool>&v){
-        if(v[x]){
-            return;
-        }
-        v[x]=true;
-        for(auto y:g[x]){
-            f(y,g,v);
-        }
-    }
-    int findCircleNum(vector<vector<int>>& a) {
-        int n=a.size();
-        vector<bool>v(n+1);
-        map<int,vector<int>>g;
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++ ){
-                if(a[i][j]==1){
-                    g[i+1].push_back(j+1);
-                    g[j+1].push_back(i+1);
+    int findCircleNum(vector<vector<int>>& c) {
+       unordered_map<int,vector<int>>g;
+       int n=c.size();
+       for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(i!=j && c[i][j]==1){
+                    g[i].push_back(j);
+                    g[j].push_back(i);
                 }
             }
-        }
-        int ans=0;
-        for(int i=1;i<=n;i++){
-            if(!v[i]){
+       }
+       unordered_map<int,bool>vis;
+       
+       int ans=0;
+       for(int i=0;i<n;i++){
+            if(vis[i]==false){
                 ans++;
-                f(i,g,v);
+                queue<int>q;
+                q.push(i);
+                while(!q.empty()){
+                    int nxt=q.front();
+                    q.pop();
+                    vis[nxt]=true;
+                    for(auto x:g[nxt]){
+                        if(vis[x]!=true){
+                            vis[x]=true;
+                            q.push(x);
+                        }
+                    }
+                }
             }
-        }
-        return ans;
+       }
+       return ans;
     }
 };
