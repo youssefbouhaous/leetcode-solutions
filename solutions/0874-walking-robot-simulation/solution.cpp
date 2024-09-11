@@ -1,53 +1,63 @@
 class Solution {
 public:
-
-    void changeDirection(int &x,int&y,int& d){
-        if(d==0){
-            y++;
+    int robotSim(vector<int>& cms, vector<vector<int>>& ob) {
+        set<pair<int,int>>st;
+        for(auto x:ob){
+            st.insert({x[0],x[1]});
         }
-        if(d==1){
-            x++;
-        }
-        if(d==2){
-            y--;
-        }
-        if(d==3){
-            x--;
-        }
-    }
-    int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) {
-        int x=0;
-        int y=0;
-        set<pair<int,int>>obs;
-        for(auto x:obstacles){
-            obs.insert({x[0],x[1]});
-        }
-        int maxd=0;
-        int direction=0;
-        
-        for(auto k:commands){
-            if(k==-1){
-                direction++;
-                direction=direction%4;
-            }
-            else if(k==-2){
-                direction--;
-                direction=(direction+4)%4;
-            }
-            else{
-                for(int i=0;i<k;i++){
-                    int tmpx=x;
-                    int tmpy=y;
-                    changeDirection(x,y,direction);
-                    if(obs.count({x,y})){
-                        x=tmpx;
-                        y=tmpy;
-                    }
-                    //cout<<x<<" "<<y<<" d :"<<direction<<endl;
-                    maxd=max(x*x+y*y,maxd);
+        pair<int,int>cur={0,0};
+        int d=0;
+        pair<int,int>s={0,1};
+        bool f=false;
+        int ans=0;
+        for(auto y:cms){
+            if(y==-1){
+                d++;
+                d=d%4;
+                if(d==0){
+                    s={0,1};
+                }
+                if(d==1){
+                    s={1,0};
+                }
+                if(d==2){
+                    s={0,-1};
+                }
+                if(d==3){
+                    s={-1,0};
                 }
             }
+            else if(y==-2){
+                d--;
+                d=d%4;
+                if(d<0){
+                    d+=4;
+                }
+                if(d==0){
+                    s={0,1};
+                }
+                if(d==1){
+                    s={1,0};
+                }
+                if(d==2){
+                    s={0,-1};
+                }
+                if(d==3){
+                    s={-1,0};
+                }
+            }
+            else{
+            while(y--){
+            if(st.count({cur.first+s.first,cur.second+s.second})){
+                break;
+            }
+            else{
+                cur={cur.first+s.first,cur.second+s.second};
+                ans=max(ans,cur.first*cur.first+cur.second*cur.second);
+            }
+            }
+            }
         }
-        return maxd;
+        return ans;
     }
 };
