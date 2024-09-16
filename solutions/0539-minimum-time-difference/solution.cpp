@@ -1,12 +1,6 @@
 class Solution {
 public:
     int findMinDifference(vector<string>& t) {
-        vector<int>d;
-        for(int i=0;i<=23;i++){
-            for(int j=0;j<=59;j++){
-                d.push_back(i*60+j);
-            }
-        }
         vector<int>toMin;
         for(auto x:t){
             int tmp=(x[0]-'0')*600+(x[1]-'0')*60+(x[3]-'0')*10+(x[4]-'0');
