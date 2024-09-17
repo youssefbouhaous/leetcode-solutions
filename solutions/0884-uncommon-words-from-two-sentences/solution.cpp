@@ -1,8 +1,8 @@
 class Solution {
 public:
     vector<string> uncommonFromSentences(string s1, string s2) {
-        unordered_map<string,int>a;
-        unordered_map<string,int>b;
+        map<string,int>a;
+        map<string,int>b;
         string tmp;
         for(auto x:s1){
             if(x==' ' && !tmp.empty()){
