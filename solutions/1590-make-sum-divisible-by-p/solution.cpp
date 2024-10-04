@@ -14,7 +14,7 @@ public:
         int ans=n;
         for(int i=0;i<n;i++){
             cur=(cur+nums[i])%p;
-            int needed=(cur-tar+p)%p;
+            int needed=(cur-t+p)%p;
             if(mp.find(needed)!=mp.end()){
                 ans=min(i-mp[needed],ans);
             }
