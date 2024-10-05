@@ -20,13 +20,13 @@ public:
                 if(cnt.find(w)==cnt.end()){
                     c=0;
                     seen.clear();
+                    l=p+m;
                 }
                 else if(seen[w]>cnt[w]){
                     c++;
                     while(seen[w]>cnt[w]){
                         string tmp=s.substr(l,m);
-                        seen[tmp]--;
-                        if(cnt.find(tmp)!=cnt.end())c--;
+                        seen[tmp]--;c--;
                         l+=m;
                     }
                     //cout<<p<<" l"<<l<<endl;
