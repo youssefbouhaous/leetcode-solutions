@@ -1,35 +1,33 @@
 class Solution {
 public:
     std::string longestDiverseString(int a, int b, int c) {
-        int currA = 0, currB = 0, currC = 0;
-        int maxLen = a + b + c, i = 0;
-        std::string result; // Using std::string instead of StringBuilder
-        
-        while (i < maxLen) {
-            if ((currA != 2 && a >= b && a >= c) || (a > 0 && (currB == 2 || currC == 2))) {
-                result += 'a';
-                currA++;
-                currB = 0;
-                currC = 0;
-                a--;
-            } 
-            else if ((currB != 2 && b >= a && b >= c) || (b > 0 && (currA == 2 || currC == 2))) {
-                result += 'b';
-                currB++;
-                currA = 0;
-                currC = 0;
-                b--;
-            } 
-            else if ((currC != 2 && c >= a && c >= b) || (c > 0 && (currA == 2 || currB == 2))) {
-                result += 'c';
-                currC++;
-                currA = 0;
-                currB = 0;
-                c--;
+        string ans;
+        priority_queue<pair<int,char>>q;
+        if(a>0)
+        q.push({a,'a'});
+        if(b>0)
+        q.push({b,'b'});
+        if(c>0)
+        q.push({c,'c'});
+        while(!q.empty()){
+            int n=ans.size();
+            auto t=q.top();
+            q.pop();
+            if(ans.size()>1 && (ans[n-1]==t.second && ans[n-2]==t.second)){
+                if(q.empty()) break;
+                auto o=q.top();
+                q.pop();
+                    ans.push_back(o.second);
+                    if(o.first-1>0)
+                q.push({o.first-1,o.second});
+                q.push(t);
             }
-            i++;
+            else{
+                ans.push_back(t.second);
+                if(t.first-1>0)
+                q.push({t.first-1,t.second});
+            }
         }
-        
-        return result;
+        return ans;
     }
 };
