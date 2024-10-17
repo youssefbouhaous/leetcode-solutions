@@ -4,14 +4,16 @@ public:
         int ans=0;
         int n=words.size();
         for(int i=0;i<n;i++){
-            int c=0;
-            for(int j=i+1;j<n;j++){
-                if(words[i][0]==words[j][1] && words[i][1]==words[j][0]){
-                    c++;
+            for(int j=0;j<n;j++){
+                if(i!=j){
+                    swap(words[j][0],words[j][1]);
+                    if(words[i]==words[j]){
+                        ans++;
+                    }
+                    swap(words[j][0],words[j][1]);
                 }
             }
-            ans+=c;
         }
-        return ans;
+        return ans/2;
     }
 };
