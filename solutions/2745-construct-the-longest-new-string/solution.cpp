@@ -1,25 +1,9 @@
 class Solution {
 public:
     int longestString(int x, int y, int z) {
-        int ans=0;
-        ans=min(x,y);
-        x-=ans;
-        y-=ans;
-        if(min(x,y)==x){
-            if(y!=0){
-            return (ans*2+z+1)*2;
-            }
-            else{
-                return (ans*2+z)*2;   
-            }
-        }
-        else{
-            if(x!=0){
-            return (ans*2+z+1)*2;
-            }
-            else{
-                return (ans*2+z)*2;    
-            }
-        }
+        int m=min(x,y);
+        int ans= m*4+z*2;
+        if(max(x,y)-m>0){ans+=2;}
+        return ans;
     }
 };
