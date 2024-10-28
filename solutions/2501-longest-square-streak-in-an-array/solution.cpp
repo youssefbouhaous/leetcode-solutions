@@ -9,7 +9,7 @@ public:
         for(auto x:nums){
             int tmp=0;
             long long int p=x;
-            while(mp[p]!=0){
+            while(mp.find(p)!=mp.end()){
                 tmp++;
                 p*=p;
             }
