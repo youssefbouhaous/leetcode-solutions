@@ -1,14 +1,18 @@
 class Solution:
     def intervalIntersection(self, l: List[List[int]], h: List[List[int]]) -> List[List[int]]:
         ans=[]
-        for i in l:
-            a=i[0]
-            b=i[1]
-            for j in h:
-                if b<j[0]:
-                    print(b)
-                    break
-                elif (a>=j[0] and a<=j[1]) or (b>=j[0] and b<=j[1]) or (b>=j[0] and a<=j[0]) or (b>=j[1] and a<=j[1]):
-                    ans.append([max(a,j[0]),min(b,j[1])])
-                #print(i,j)
+        a,b=0,0
+        n,m=len(l),len(h)
+        while a<n and b<m:
+            if l[a][0]>h[b][1]:
+                b+=1
+                continue
+            if l[a][1]<h[b][0]:
+                a+=1
+                continue
+            ans.append([max(l[a][0],h[b][0]),min(l[a][1],h[b][1])])
+            if h[b][1]<=l[a][1]:
+                b+=1
+            else:
+                a+=1
         return ans 
