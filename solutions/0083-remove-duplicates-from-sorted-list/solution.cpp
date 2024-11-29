@@ -13,7 +13,6 @@ public:
     ListNode* deleteDuplicates(ListNode* head) {
         if(head==nullptr) return head;
         ListNode* ans=head;
-        ListNode* ansf=head;
         while(ans->next!=nullptr){
             if(ans->next->val==ans->val){
                 ans->next=ans->next->next;
@@ -22,6 +21,6 @@ public:
                 ans=ans->next;
             }
         }
-        return ansf;
+        return head;
     }
 };
