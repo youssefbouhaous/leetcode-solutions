@@ -1,25 +1,16 @@
 class Solution {
-public:
-    int dis(int i,int j,string& a,string& b,vector<vector<int>>&dp){
-        if(i==a.size() || j==b.size()){
-            return max(a.size()-i,b.size()-j);
+    int dp[505][505];
+    int f(int i,int j,string& a,string& b){
+        if(i>=a.size() || j>=b.size()){
+            //cout<<i<<" - "<<j<<endl;
+            return abs((int)a.size()-i-(int)b.size()+j);
         }
-        if(dp[i][j]!=-1){
-            return dp[i][j];
-        }
-        if(a[i]==b[j]) return dp[i][j]=dis(i+1,j+1,a,b,dp);
-        else{
-            return dp[i][j]=min({1+dis(i+1,j,a,b,dp),1+dis(i,j+1,a,b,dp),1+dis(i+1,j+1,a,b,dp)});
-        }
+        if(dp[i][j]!=-1)return dp[i][j];
+        return dp[i][j]=min({1+f(i+1,j,a,b),1+f(i,j+1,a,b),1-(a[i]==b[j])+f(i+1,j+1,a,b)});
     }
+public:
     int minDistance(string word1, string word2) {
-        int n=word1.size();
-        int m=word2.size();
-        if(n==0 || m==0){
-            return max(n,m);
-        }
-        vector<vector<int>>dp(n,vector<int>(m,-1));
-        dis(0,0,word1,word2,dp);
-        return dp[0][0];
+        for(int i=0;i<505;i++)for(int j=0;j<505;j++)dp[i][j]=-1;
+        return f(0,0,word1,word2);
     }
 };
