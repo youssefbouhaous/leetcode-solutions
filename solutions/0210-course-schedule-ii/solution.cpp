@@ -1,9 +1,8 @@
 class Solution {
-public:
-map<int,vector<int>>adj;
-    map<int,int>v;
-    map<int,char> color;
-    map<int,int> parent;
+    int n;
+    unordered_map<int,vector<int>> adj;
+    vector<char> color;
+    vector<int> parent;
 
     bool dfs(int v) {
         color[v] = 1;
@@ -19,51 +18,52 @@ map<int,vector<int>>adj;
         color[v] = 2;
         return false;
     }
-    vector<int> findOrder(int n, vector<vector<int>>& p) {
-        for(int i=0;i<p.size();i++){
-            adj[p[i][0]].push_back(p[i][1]);
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& p) {
+        n=numCourses;
+        color.assign(n, 0);
+        parent.assign(n, -1);
+        unordered_map<int,vector<int>>radj;
+        for(auto x:p){
+            adj[x[0]].push_back(x[1]);
+            radj[x[1]].push_back(x[0]);
         }
-        vector<int> sol;
-        for(int i=0;i<n;i++){
-            if(dfs(i)){
-                return sol;
+        vector<int>ans;
+        queue<int>q;
+        unordered_map<int,bool>vis;
+        for(auto x:p){
+            if(dfs(x[0])){
+                return ans;
             }
         }
-        v.clear();
-        map<int,bool>aa;
         for(int i=0;i<n;i++){
-            if(v[i]==0){
-            stack<int>s;
-            s.push(i);
-            while(!s.empty()){
-                int nxt=s.top();
-                if(aa[nxt]){
-                    s.pop();
-                    continue;
-                }
-                v[nxt]++;
+            if(!vis[i]&& adj[i].size()==0){
+                //vis[i]=true;
+                q.push(i);
+            }
+        }
+        //cout<<q.size();
+        while(!q.empty()){
+            int nxt=q.front();
+            q.pop();
+            if(!vis[nxt])
+            ans.push_back(nxt);
+            vis[nxt]=true;
+            //cout<<"ok";
+            for(auto x:radj[nxt]){
                 bool f=true;
-                if(adj[nxt].empty()){
-                    sol.push_back(nxt);
-                    aa[nxt]=true;
-                    s.pop();
-                    continue;
-                }
-                for(int j:adj[nxt]){
-                    if(!aa[j]){
+                for(auto y:adj[x]){
+                    if(!vis[y]){
                         f=false;
-                        v[j]++;
-                        s.push(j);
+                        break;
                     }
                 }
-                if(f && !aa[nxt]){
-                    sol.push_back(nxt);
-                    s.pop();
-                    aa[nxt]=true;
+                if(f){
+                    q.push(x);
                 }
             }
-            }
         }
-        return sol;
+        //reverse(ans.begin(),ans.end());
+        return ans;
     }
 };
