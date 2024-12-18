@@ -29,36 +29,38 @@ public:
         for(int i=0;i<n;i++)h12[i+1]=(h12[i]+(nums1[i]+1)*pp2[i])%mod;
         for(int i=0;i<m;i++)h2[i+1]=(h2[i]+(nums2[i]+1)*pp[i])%mod;
         for(int i=0;i<m;i++)h22[i+1]=(h22[i]+(nums2[i]+1)*pp2[i])%mod;
-        unordered_set<pair<long long,long long>,pair_hash>st;
-        for(int i=0;i<n;i++){
-            for(int j=i;j<n;j++){
-                long long cur=(h1[j+1]-h1[i]+mod)%mod;
-                long long cur2=(h12[j+1]-h12[i]+mod)%mod;
+        int l=0;
+        int r=min(n,m);
+        int ans=0;
+        while(l<=r){
+            int mm=(l+r)/2;
+            unordered_set<pair<long long ,long long>,pair_hash>st;
+            for(int i=0;i<=min(n-mm,n-1);i++){
+                long long cur=(h1[i+mm]-h1[i]+mod)%mod;
+                long long cur2=(h12[i+mm]-h12[i]+mod)%mod;
                 cur=(cur*pp[nm-i-1])%mod;
                 cur2=(cur2*pp2[nm-i-1])%mod;
                 st.insert({cur,cur2});
             }
-        }
-        pair<int,int>ans={-1,-1};
-        for(int i=0;i<m;i++){
-            for(int j=i;j<m;j++){
-                long long cur=(h2[j+1]-h2[i]+mod)%mod;
-                long long cur2=(h22[j+1]-h22[i]+mod)%mod;
+            bool found=false;
+            for(int i=0;i<=min(m-mm,m-1);i++){
+                long long cur=(h2[i+mm]-h2[i]+mod)%mod;
+                long long cur2=(h22[i+mm]-h22[i]+mod)%mod;
                 cur=(cur*pp[nm-i-1])%mod;
                 cur2=(cur2*pp2[nm-i-1])%mod;
                 if(st.count({cur,cur2})){
-                    if(ans.first==-1){
-                        ans.first=j;
-                        ans.second=i;
-                    }
-                    else if(ans.first-ans.second<j-i){
-                        ans.first=j;
-                        ans.second=i;
-                    }
+                    found=true;
+                    ans=max(ans,mm);
+                    break;
                 }
             }
+            if(found){
+                l=mm+1;
+            }
+            else{
+                r=mm-1;
+            }
         }
-        if(ans.first==-1)return 0;
-        return ans.first-ans.second+1;
+        return ans;
     }
 };
