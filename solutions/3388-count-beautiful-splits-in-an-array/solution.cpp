@@ -17,7 +17,7 @@ public:
         vector<long long>h(n+1);
         pp[0]=1;
         for(int i=1;i<n;i++)pp[i]=(pp[i-1]*p)%mod;
-        for(int i=0;i<n;i++)h[i+1]=(h[i]+(nums[i]+1)*pp[i])%mod;
+        for(int i=0;i<n;i++)h[i+1]=(h[i]+(nums[i])*pp[i])%mod;
         int ans=0;
         for(int i=1;i<n-1;i++){
             for(int j=i+1;j<n;j++){
