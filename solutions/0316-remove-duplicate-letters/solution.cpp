@@ -43,6 +43,8 @@ public:
                 if(!add){
                     ans.push_back(s[i]);
                 in.insert(s[i]);
+                }else{
+                    i=id-1;
                 }
             }
         }
