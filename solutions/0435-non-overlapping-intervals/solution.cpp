@@ -1,21 +1,19 @@
 class Solution {
 public:
-    int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-        vector<pair<int,int>>v;
-        for(auto x:intervals){
-            v.push_back({x[1],x[0]});
-        }
-        sort(v.begin(),v.end());
-        int ans=0;
-        int p=v[0].first;
-        for(int i=1;i<v.size();i++){
-            if(p<=v[i].second){
-                p=v[i].first;
-            }
-            else{
+    int eraseOverlapIntervals(vector<vector<int>>& i) {
+        int ans=1;
+        sort(i.begin(),i.end());
+        int n=i.size();
+        int cur=i[0][1];
+        for(int y=1;y<n;y++){
+            if(cur<=i[y][0]){
+                cur=i[y][1];
                 ans++;
             }
+            else{
+                cur=min(cur,i[y][1]);
+            }
         }
-        return ans;
+        return n-ans;
     }
 };
