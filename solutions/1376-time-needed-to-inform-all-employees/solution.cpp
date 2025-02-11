@@ -1,30 +1,22 @@
 class Solution {
 public:
-    Solution() {
-        std::ios_base::sync_with_stdio(false);
-        std::cin.tie(nullptr);
-        std::cout.tie(NULL);
-    }
-    int ans=0;
-    void dfs(int x,int val,map<int,vector<int>>&g,vector<int>& info){
-        val+=info[x];
-        ans=max(ans,val);
-        for(auto y:g[x]){
-            dfs(y,val,g,info);
-        }
-    }
-    int numOfMinutes(int n, int h, vector<int>& m, vector<int>& info) {
-        
-        map<int,vector<int>>g;
-        int b=-1;
+    int numOfMinutes(int n, int head, vector<int>& m, vector<int>& info) {
+        unordered_map<int,vector<int>>g;
         for(int i=0;i<n;i++){
-            if(m[i]==-1){
-                b=i;
-                continue;
-            }
             g[m[i]].push_back(i);
         }
-        dfs(b,0,g,info);
+        queue<int>q;
+        q.push(head);
+        vector<int>d(n);
+        int ans=0;
+        while(!q.empty()){
+            int nxt=q.front();q.pop();
+            for(auto y:g[nxt]){
+                d[y]=d[nxt]+info[nxt];
+                ans=max(ans,d[y]);
+                q.push(y);
+            }
+        }
         return ans;
     }
 };
