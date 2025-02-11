@@ -1,38 +1,31 @@
 class Solution {
-public:
-    int c=0;
-    map<int,vector<int>>g;
-    map<int,vector<int>>gto;
-    map<int,bool>vv;
-    void dfs(int v,vector<vector<int>>& con){
-        vv[v]=true;
-        for(auto x:g[v]){
-            if(vv[x]==true) continue;
-            if(gto[x].empty()){
-                c++;
+    bool vis[50005]={};
+    unordered_map<int,vector<int>>g;
+    unordered_map<int,vector<int>>gr;
+    int ans=0;
+    void dfs(int x){
+        vis[x]=true;
+        for(auto y:g[x]){
+            if(!vis[y]){
+                vis[y]=true;
+                dfs(y);
             }
-            else{
-                bool f=0;
-                for(auto y:gto[x]){
-                    if(y==v){
-                        f=1;
-                    }
-                }
-                if(f==0){
-                    c++;
-                }
+        }
+        for(auto y:gr[x]){
+            if(!vis[y]){
+                vis[y]=true;
+                ans++;
+                dfs(y);
             }
-            dfs(x,con);
         }
     }
-    int minReorder(int n, vector<vector<int>>& con) {
-        c=0;
-        for(auto x:con){
-            g[x[0]].push_back(x[1]);
+public:
+    int minReorder(int n, vector<vector<int>>& c) {
+        for(auto x:c){
             g[x[1]].push_back(x[0]);
-            gto[x[0]].push_back(x[1]);
+            gr[x[0]].push_back(x[1]);
         }
-        dfs(0,con);
-        return c;
+        dfs(0);
+        return ans;
     }
 };
