@@ -12,13 +12,7 @@ public:
         }
         int res=0;
         for(int i=left;i<=right;i++){
-            int t=i;
-            int ans=0;
-            while(t){
-                if(t&1)ans++;
-                t/=2;
-            }
-            if(is_prime[ans])res++;
+            if(is_prime[ __builtin_popcount(i)])res++;
         }
         return res;
     }
