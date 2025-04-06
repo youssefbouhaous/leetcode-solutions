@@ -6,7 +6,7 @@ class Solution:
         for i in nums:
             oc[i]=oc[i]+1
         ans=0
-        for i in range(20001):
+        for i in range(min(20001,max(nums)+1)):
             dp[i]=max(oc[i]*i+dp[i-2],dp[i-1])
             #print(i,dp[i])
             ans=max(ans,dp[i]) 
