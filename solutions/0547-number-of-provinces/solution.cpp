@@ -1,29 +1,29 @@
 class Solution {
-    bool vis[201]={};
-    unordered_map<int,vector<int>>g;
+public:
+    map<int,bool>vis;
+    map<int,vector<int>>adj;
     void dfs(int x){
         vis[x]=true;
-        for(auto y:g[x]){
-            if(!vis[y]){
+        for(auto y:adj[x]){
+            if(vis.find(y)==vis.end()){
                 dfs(y);
             }
         }
     }
-public:
-    int findCircleNum(vector<vector<int>>& c) {
-        int n=c.size();
+    int findCircleNum(vector<vector<int>>& a) {
+        int n=a.size();
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
-                if(c[i][j]==1){
-                    g[i].push_back(j);
-                    g[j].push_back(i);
+                if(a[i][j]==1){
+                    adj[i].push_back(j);
                 }
             }
         }
         int ans=0;
         for(int i=0;i<n;i++){
-            if(!vis[i]){
-                ans++;dfs(i);
+            if(vis.find(i)==vis.end()){
+                ans++;
+                dfs(i);
             }
         }
         return ans;
