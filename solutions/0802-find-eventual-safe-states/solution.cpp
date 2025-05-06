@@ -1,39 +1,45 @@
 class Solution {
-    int n;
-    unordered_map<int,vector<int>>g;
-    bool vis[10001]={};
-    bool safe[10001]={};
-    vector<int>v;
-    void dfs(int x){
-        vis[x]=true;
-        bool ans=true;
-        for(auto y:g[x]){
-            if(!vis[y]){
-                vis[y]=true;
-                dfs(y);
-            }
-            ans&=safe[y];
-        }
-        safe[x]=ans;
-        if(safe[x]){
-            v.push_back(x);
-        }
-    }
 public:
-    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        n=graph.size();
-        for(int i=0;i<n;i++){
-            for(auto y:graph[i]){
-                g[i].push_back(y);
+    map<int,bool>vis;
+    map<int,vector<int>>adj;
+    set<int>ans;
+    bool dfs(int x){
+        bool f=true;
+        vis[x]=true;
+        if(adj[x].size()==0){
+            ans.insert(x);
+            return true;
+        }
+        for(auto y:adj[x]){
+            if(vis.find(y)==vis.end()){
+                f&=dfs(y);
+            }
+            else if(ans.count(y)==0){
+                return false;
             }
         }
+        if(f){
+            ans.insert(x);
+            return true;
+        }
+        return false;
+    }
+
+
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n=graph.size();
         for(int i=0;i<n;i++){
-            dfs(i);
+            adj[i]=graph[i];
         }
-        set<int>st;
-        for(auto x:v){
-            st.insert(x);
+        for(int i=0;i<n;i++){
+            if(vis.find(i)==vis.end()){
+                dfs(i);
+            }
         }
-        return vector<int>(st.begin(),st.end());
+        vector<int>ff;
+        for(auto x:ans){
+            ff.push_back(x);
+        }
+        return ff;
     }
 };
