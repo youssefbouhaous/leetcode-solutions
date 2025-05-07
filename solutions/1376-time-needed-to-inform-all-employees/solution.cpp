@@ -1,20 +1,28 @@
 class Solution {
 public:
-    int numOfMinutes(int n, int head, vector<int>& m, vector<int>& info) {
-        unordered_map<int,vector<int>>g;
+    int numOfMinutes(int n, int h, vector<int>& m, vector<int>& t) {
+        vector<vector<int>>adj(n,vector<int>(0));
         for(int i=0;i<n;i++){
-            g[m[i]].push_back(i);
+            if(i==h)continue;
+            adj[m[i]].push_back(i);
         }
         queue<int>q;
-        q.push(head);
-        vector<int>d(n);
+        vector<int>d(n,INT_MAX);
+        vector<int>vis(n,false);
+        vis[h]=true;
+        d[h]=0;
+        q.push(h);
         int ans=0;
         while(!q.empty()){
-            int nxt=q.front();q.pop();
-            for(auto y:g[nxt]){
-                d[y]=d[nxt]+info[nxt];
-                ans=max(ans,d[y]);
-                q.push(y);
+            int x=q.front();
+            q.pop();
+            for(auto y:adj[x]){
+                if(!vis[y]){
+                    vis[y]=true;
+                    d[y]=d[x]+t[x];
+                    ans=max(ans,d[y]);
+                    q.push(y);
+                }
             }
         }
         return ans;
