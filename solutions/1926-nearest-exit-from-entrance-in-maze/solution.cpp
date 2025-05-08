@@ -1,49 +1,37 @@
 class Solution {
 public:
     int n,m;
-    bool valid(int i,int j){
-        return 0<=i && i<n && 0<=j && j<m;
+    bool isValid(int i,int j){
+        return i>=0 && i<n && j>=0 && j<m;
     }
-    bool border(int i,int j){
-        return i==0 || i==n-1 || j==0 || j==m-1;
-    }
-    int nearestExit(vector<vector<char>>& maze, vector<int>& entrance) {
-       n=maze.size();
-       m=maze[0].size();
-       queue<pair<int,int>>q;
-       map<pair<int,int>,int>d;
-       map<pair<int,int>,bool>v;
-       q.push({entrance[0],entrance[1]});
-       v[q.front()]=1;
-       while(!q.empty()){
-           pair<int,int> x = q.front();
-           q.pop();
-           int i=x.first,j=x.second;
-           if(border(i,j) && (i!=entrance[0] || j!=entrance[1])){
-               return d[{i,j}];
-           }
-           if(valid(i-1,j) && maze[i-1][j]=='.' && v[{i-1,j}]==0){
-               d[{i-1,j}]=d[{i,j}]+1;
-               v[{i-1,j}]=1;
-               q.push({i-1,j});
-           }
-           if(valid(i+1,j) && maze[i+1][j]=='.' && v[{i+1,j}]==0){
-               d[{i+1,j}]=d[{i,j}]+1;
-               v[{i+1,j}]=1;
-               q.push({i+1,j});
-           }
-           if(valid(i,j-1) && maze[i][j-1]=='.' && v[{i,j-1}]==0){
-               d[{i,j-1}]=d[{i,j}]+1;
-               v[{i,j-1}]=1;
-               q.push({i,j-1});
-           }
-           if(valid(i,j+1) && maze[i][j+1]=='.' && v[{i,j+1}]==0){
-               d[{i,j+1}]=d[{i,j}]+1;
-               v[{i,j+1}]=1;
-               q.push({i,j+1});
-           }
-           
-       }
-       return -1;
+    int nearestExit(vector<vector<char>>& maze, vector<int>& e) {
+        int i=e[0];
+        int j=e[1];
+        n=maze.size();
+        m=maze[0].size();
+        bool found=false;
+        vector<vector<bool>>vis(n,vector<bool>(m,false));
+        vector<vector<int>>d(n,vector<int>(m));
+        vis[i][j]=true;
+        queue<pair<int,int>>q;
+        q.push({i,j});
+        while(!q.empty()){
+            auto it=q.front();
+            q.pop();
+            vector<pair<int,int>>xy={{1,0},{0,1},{-1,0},{0,-1}};
+            for(auto r:xy){
+                pair<int,int>o={it.first+r.first,it.second+r.second};
+                if(!isValid(o.first,o.second))continue;
+                if(!vis[o.first][o.second] && maze[o.first][o.second]=='.'){
+                    vis[o.first][o.second]=true;
+                    d[o.first][o.second]=d[it.first][it.second]+1;
+                    if(o.second==m-1 || o.first==n-1 || o.second==0 || o.first==0){
+                        return d[o.first][o.second];
+                    }
+                    q.push(o);
+                }
+            }
+        }
+        return -1;
     }
 };
