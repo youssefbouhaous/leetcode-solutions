@@ -1,13 +1,10 @@
 class Solution:
-    visited = [[0]*500 for _ in range(500)]
-    
     def lenOfVDiagonal(self, grid: List[List[int]]) -> int:
         @cache
         def isValid(i,j):
             return 0<=i<Solution.n and 0<=j<Solution.m
         @cache
         def f(i,j,case,rot,d):
-            Solution.visited[i][j]=1
             xy = []
             if d == 1:
                 xy = [(i+1,j+1,0,1),(i+1,j-1,1,2)]
@@ -20,13 +17,12 @@ class Solution:
             mx = 1
             if case == 2:
                 for c in xy:
-                    if ( isValid(c[0],c[1])) and Solution.visited[c[0]][c[1]] == 0 and rot+c[2] <2 and grid[c[0]][c[1]]==0:
+                    if ( isValid(c[0],c[1])) and rot+c[2] <2 and grid[c[0]][c[1]]==0:
                         mx = max(mx,1 + f(c[0],c[1],0,rot+c[2],c[3]))
             if case == 0:
                 for c in xy:
-                    if ( isValid(c[0],c[1])) and Solution.visited[c[0]][c[1]] == 0 and rot+c[2] <2 and grid[c[0]][c[1]]==2:
+                    if ( isValid(c[0],c[1])) and rot+c[2] <2 and grid[c[0]][c[1]]==2:
                         mx = max(mx,1 + f(c[0],c[1],2,rot+c[2],c[3]))
-            Solution.visited[i][j]=0
             return mx
         mx = 0
         Solution.n = len(grid)
