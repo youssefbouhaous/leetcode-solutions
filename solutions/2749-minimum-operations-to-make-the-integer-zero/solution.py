@@ -1,9 +1,8 @@
 class Solution:
     def makeTheIntegerZero(self, num1: int, num2: int) -> int:
         for i in range(61):
-            x = num1-i*num2
-            if i>x:
+            if i>num1-i*num2:
                 return -1
-            elif i>=x.bit_count():
+            elif i>=(num1-i*num2).bit_count():
                 return i
         return -1
