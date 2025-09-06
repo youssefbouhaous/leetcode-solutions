@@ -8,10 +8,10 @@ class Solution:
             s = 0
             while p <= b:
                 l = max(a,p)
-                r = min(b, p*4 -1)
-                if l <= r:
-                    t+=(r-l+1)*(s+1)
+                r = min(b,p*4-1)
+                if l<=r:
+                    t += (r-l+1)*(s+1)
                 p *= 4
-                s+=1
+                s += 1
             ans += ceil(t/2)
         return ans
