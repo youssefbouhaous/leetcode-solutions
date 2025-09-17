@@ -5,18 +5,13 @@ class FoodRatings:
 
     def __init__(self, foods: List[str], cuisines: List[str], ratings: List[int]):
         self.n =len(foods)
-        #all need a dic to keep track of the names and map names ot indeces
         self.f = {}
         self.c = cuisines
         for i in range(self.n):
             self.f[foods[i]] = i
-        #now what i need ?
-        #I LL need to construct a heap for each cuisine type where i ll keep track of items with ratings
         self.mp = {}
-        #this to keep track of changed items
         self.dele = defaultdict(bool)
         self.r = ratings
-        #i should now construct the heaps
         for i in range(self.n):
             if cuisines[i] not in self.mp:
                 self.mp[cuisines[i]] = []
@@ -31,9 +26,3 @@ class FoodRatings:
             heapq.heappop(self.mp[self.c[self.f[food]]])
     def highestRated(self, cuisine: str) -> str:
         return self.mp[cuisine][0][1]
-
-
-# Your FoodRatings object will be instantiated and called as such:
-# obj = FoodRatings(foods, cuisines, ratings)
-# obj.changeRating(food,newRating)
-# param_2 = obj.highestRated(cuisine)
