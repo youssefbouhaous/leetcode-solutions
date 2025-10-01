@@ -1,54 +1,39 @@
-import heapq
 class MovieRentingSystem:
-    
+
     def __init__(self, n: int, entries: List[List[int]]):
-        self.rented = set()
-        self.added = set()
-        self.unrented = {}
-        self.movies = []
-        self.p = {}
+        self. a = {}
+        self.r = set()
+        self.m = {}
         for s,m,p in entries:
-            if m not in self.unrented:
-                self.unrented[m] = []
-            heapq.heappush(self.unrented[m],(p,s))
-            self.p[(m,s)] = p
+            self.a[(m,s)] = p
+            if m not in self.m:
+                self.m[m] = []
+            self.m[m].append((p,s))
+        for i in self.m:
+            self.m[i].sort()
 
     def search(self, movie: int) -> List[int]:
-        if movie not in self.unrented:
-            return []
-        l = self.unrented[movie]
         ans = []
-        k = []
-        while len(l)>0 and len(ans)<5:
-            p,s = heapq.heappop(l)
-            k.append((p,s))
-            if (movie,s) not in self.rented:
-                ans.append(s)
-        while len(k)>0:
-            heapq.heappush(self.unrented[movie],k[-1])
-            k.pop()
+        for i in self.m.get(movie,[]):
+            if (movie,i[1]) not in self.r:
+                ans.append(i[1])
+            if len(ans) == 5:
+                return ans
         return ans
 
     def rent(self, shop: int, movie: int) -> None:
-        self.rented.add((movie,shop))
-        if not (movie,shop) in self.added:
-            self.added.add((movie,shop))
-            heapq.heappush(self.movies,(self.p[(movie,shop)],shop,movie))
+        self.r.add((movie,shop))
 
     def drop(self, shop: int, movie: int) -> None:
-        self.rented.discard((movie, shop))
+        self.r.discard((movie,shop))
 
     def report(self) -> List[List[int]]:
         ans = []
-        k = []
-        while len(ans)<5 and len(self.movies)>0:
-            p,s,m = heapq.heappop(self.movies)
-            if (m,s) in self.rented:
-                ans.append([s,m])
-            k.append((p,s,m))
-        while len(k)>0:
-            heapq.heappush(self.movies,k.pop())
-        return ans
+        for m,s in self.r:
+            ans.append((self.a[(m,s)],s,m))
+        ans.sort()
+        return [[s,m] for p,s,m in ans[:5]]
+
 
 # Your MovieRentingSystem object will be instantiated and called as such:
 # obj = MovieRentingSystem(n, entries)
