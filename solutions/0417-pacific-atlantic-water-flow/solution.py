@@ -67,6 +67,4 @@ class Solution:
                 if pac[i][j] and atl[i][j]:
                     ans.add((i,j))
         
-        lll = list(ans)
-        lll.sort()
-        return lll
+        return list(ans)
