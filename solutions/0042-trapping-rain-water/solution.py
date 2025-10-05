@@ -1,24 +1,16 @@
 import heapq
 class Solution:
-    def trap(self, l: List[int]) -> int:
-        h = []
-        n = len(l)
-        if n<3:
-            return 0
-        heapq.heappush(h,(l[0],0))
-        heapq.heappush(h,(l[n-1],n-1))
-        vis = [False]*n
-        maxh = 0
+    def trap(self, h: List[int]) -> int:
+        n = len(h)
+        pre = [0]*n
+        suf = [0]*n
+        pre[0] = h[0]
+        suf[n-1] = h[n-1]
+        for i in range(1,n):
+            pre[i] = max(pre[i-1],h[i])
+        for i in range(n-2,-1,-1):
+            suf[i] = max(suf[i+1],h[i])
         ans = 0
-        d = [1,-1]
-        while len(h)>0:
-            v,x=heapq.heappop(h)
-            maxh = max(maxh,v)
-            vis[x] = True
-            ans += maxh - v
-            for i in d:
-                i += x
-                if 0<=i<n and not vis[i]:
-                    vis[i]=True
-                    heapq.heappush(h,(l[i],i))
+        for i in range(1,n-1):
+            ans += max(0,min(pre[i-1],suf[i+1])-h[i])
         return ans
