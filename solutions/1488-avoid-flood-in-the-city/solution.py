@@ -1,21 +1,35 @@
-from sortedcontainers import SortedList
-
-
+import heapq
 class Solution:
-    def avoidFlood(self, rains: List[int]) -> List[int]:
-        ans = [1] * len(rains)
-        st = SortedList()
-        mp = {}
-        for i, rain in enumerate(rains):
-            if rain == 0:
-                st.add(i)
+    def avoidFlood(self, r: List[int]) -> List[int]:
+        n = len(r)
+        d = {}
+        d[0] = []
+        ans = []
+        for i in range(n):
+            if r[i] == 0:
+                heapq.heappush(d[0],i)
+                ans.append(1)
             else:
-                ans[i] = -1
-                if rain in mp:
-                    it = st.bisect(mp[rain])
-                    if it == len(st):
-                        return []
-                    ans[st[it]] = rain
-                    st.discard(st[it])
-                mp[rain] = i
+                ans.append(-1)
+                if r[i] not in d:
+                    d[r[i]] = i
+                    continue
+                if len(d[0])==0:
+                    return []
+
+                tmp = []
+                f = False
+                while len(d[0])>0:
+                    
+                    o = heapq.heappop(d[0])
+                    if o > d[r[i]]:
+                        d[r[i]] = i
+                        ans[o] = r[i]
+                        f = True
+                        break
+                    tmp.append(o)
+                if not f:
+                    return []
+                for a in tmp:
+                    heapq.heappush(d[0],a)  
         return ans
