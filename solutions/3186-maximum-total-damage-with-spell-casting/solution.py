@@ -13,7 +13,7 @@ class Solution:
         for i in range(n):
             tmp = []
             nn = [k+l[i][0] for k in range(-2,3)]
-            for j in range(1,40):
+            for j in range(1,6):
                 if i-j>=0 and l[i-j][0] not in nn:
                     tmp.append(d[l[i-j][0]])
             if len(tmp)>0:
