@@ -5,8 +5,14 @@ class Solution:
         n = len(nums)
         for i in range(n):
             c = 0
-            for j in range(n):
-                if nums[j]<nums[i]:
-                    c+=1
+            l = 0
+            r = n-1
+            while l<=r:
+                m = (l+r)//2
+                if s[m]<nums[i]:
+                    c = max(c,m+1)
+                    l = m+1
+                else:
+                    r = m -1
             ans.append(c)
         return ans
