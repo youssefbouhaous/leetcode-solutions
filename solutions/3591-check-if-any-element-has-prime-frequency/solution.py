@@ -1,7 +1,7 @@
 from collections import defaultdict
 class Solution:
     def checkPrimeFrequency(self, nums: List[int]) -> bool:
-        n = 105
+        n = 101
         isp = [1]*n
         isp[0] = 0
         isp[1] = 0
