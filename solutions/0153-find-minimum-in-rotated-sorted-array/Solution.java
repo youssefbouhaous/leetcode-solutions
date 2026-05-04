@@ -1,21 +1,26 @@
 class Solution {
-    public int findMin(int[] arr) {
-        int ans=arr[0];
-        int l=0;
-        int r=arr.length-1;
-        while(l<=r){
-            int m=(l+r)/2;
-            if(m!=arr.length-1 && arr[m]>arr[m+1]){
-                ans=Math.min(ans,arr[m+1]);
-                return ans;
+    public int findMin(int[] nums) {
+        int n = nums.length;
+        if(n==1)return nums[0];
+        if(n<4)return Arrays.stream(nums).min().getAsInt();
+        if(nums[n-1]>nums[0])return nums[0];
+        int m = 0;
+        int l = 0;
+        int r = n-1;
+        while(l<r){
+            m = (l+r)/2;
+            if(nums[m]<=nums[l] && nums[m]<=nums[r]){
+                if(nums[m]<nums[m-1]&&nums[m]<nums[m+1])return nums[m];
+                r = m;
             }
-            if(arr[m]>=arr[0]){
-                l=m+1;
+            else if(nums[m]>=nums[l] && nums[m]<=nums[r]){
+                r = m;
             }
             else{
-                r=m-1;
+                l = m+1;
             }
         }
-        return ans;
+        m = (l+r)/2;
+        return nums[m];
     }
 }
