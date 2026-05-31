@@ -5,7 +5,7 @@ class Solution {
         if(a.contains(b))return 1;
         StringBuilder t = new StringBuilder();
         int i = 0;
-        while(t.length()<=10005){
+        while(t.length()<=n+m){
             if(t.toString().contains(b))return i;
             i++;
             t.append(a);
