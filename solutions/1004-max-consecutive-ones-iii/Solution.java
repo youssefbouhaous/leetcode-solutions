@@ -7,31 +7,12 @@ class Solution {
         int ans = 0;
         int c = k;
         while(r<n){
-            ans = Math.max(ans,cur);
-            if(nums[r] == 1){
-                cur++;r++;
-            }else{
-                if(c>0){
-                    c--;cur++;r++;
-                }
-                else{
-                    if(k==0){
-                        cur=0;r++;
-                        l=r;
-                    }else{
-                        l=r;
-                        cur=0;
-                        c=k;
-                        while(l>0&&c>0){
-                            l--;
-                            cur++;
-                            if(nums[l]==0)c--;
-                        }
-                        r++;
-                    }
-                }
+            if(nums[r]==0)c--;
+            if(c<0){
+                if(nums[l]==0)c++;l++;
             }
-            ans = Math.max(ans,cur);
+            r++;
+            ans = Math.max(ans,r-l);
         }
         return ans;
     }
