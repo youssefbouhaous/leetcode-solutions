@@ -1,60 +1,48 @@
 class Solution {
     public List<String> fullJustify(String[] w, int m) {
-        List<String> ans = new ArrayList<>();
-        // int i=0;
+        List<ArrayList<String>> tmp = new ArrayList<>();
+        tmp.add(new ArrayList());
+        tmp.get(0).add(w[0]);
         int n = w.length;
-        // int c=0;
-        List<List<String>> tmp = new ArrayList<>();
-        int c=w[0].length();
-        tmp.add(new ArrayList<>());
-        tmp.get(tmp.size()-1).add(w[0]);
+        int c= w[0].length();
         for(int i=1;i<n;i++){
-            if(w[i].length()+c+1<=m){
+            if(c+w[i].length()+tmp.get(tmp.size()-1).size()<=m){
                 tmp.get(tmp.size()-1).add(w[i]);
-                c=w[i].length()+c+1;
+                c+=w[i].length();
             }else{
                 c=w[i].length();
-                tmp.add(new ArrayList<>());
+                tmp.add(new ArrayList());
                 tmp.get(tmp.size()-1).add(w[i]);
-                
             }
         }
-        int cc=0;
-        int nn=tmp.size();
+        List<String> ans = new ArrayList<>();
+        int id = 0;
         for(var x:tmp){
-            int t = x.size();
-            cc++;
-            if(t==1){
+            id++;
+            if(x.size()==1){
                 ans.add(x.get(0)+" ".repeat(m-x.get(0).length()));
-                continue;
             }
-            if(cc==nn){
-                StringBuilder tm = new StringBuilder();
-                int ttt=1;
-                for(var y:x){
-                    tm.append(y+" ");
-                    ttt+=y.length();
+            else if(id==tmp.size()){
+                StringBuilder o = new StringBuilder();
+                for(var p:x){
+                    o.append(p+" ");
                 }
-                // System.out.println(tm+" - "+ttt);
-                if(tm.length()>m){
-                    ans.add(tm.toString().substring(0,tm.length()-1));break;    
+                o.setLength(o.length()-1);
+                // System.out.println(m+" - "+o.length());
+                ans.add(o.append(" ".repeat(m-o.length())).toString());
+            } 
+            else{
+                StringBuilder o = new StringBuilder();
+                int t = m-x.stream().mapToInt(a->a.length()).sum();
+                // System.out.println("t"+t);
+                int u = t/(x.size()-1);
+                int uo = t%(x.size()-1);
+                for(var p:x){
+                    o.append(p+" ".repeat(u+(uo-->0?1:0)));
                 }
-                tm.append(" ".repeat(m-tm.length()));
-                ans.add(tm.toString());
-                    
-                break;
+                ans.add(o.toString().strip());
             }
-            t=0;
-            for(var y:x)t+=y.length();
-            int r=(m-t)/(x.size()-1);
-            int rr = (m-t)%(x.size()-1);
-            StringBuilder tm = new StringBuilder();
-            for(var y:x){
-                tm.append(y+" ".repeat(r+(rr>0?1:0)));
-                rr--;
-            }
-            ans.add(tm.toString().strip());
-            // System.out.println(tm+" -+_ "+cc);
+            // System.out.println(ans.get(ans.size()-1));
         }
         return ans;
     }
