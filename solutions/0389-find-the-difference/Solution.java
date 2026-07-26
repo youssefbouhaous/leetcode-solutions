@@ -1,10 +1,15 @@
 class Solution {
     public char findTheDifference(String s, String t) {
-        char[] a = s.toCharArray();
-        char[] b = t.toCharArray();
-        Arrays.sort(a);
-        Arrays.sort(b);
-        for(int i=0;i<a.length;i++)if(a[i]!=b[i])return b[i];
-        return b[b.length-1];
+        int[] arr = new int[26];
+        int n = s.length();
+        for(int i=0;i<n;i++){
+            arr[s.charAt(i)-'a']++;
+            arr[t.charAt(i)-'a']--;
+        }
+        arr[t.charAt(n)-'a']--;
+        for(int i=0;i<26;i++){
+            if(arr[i]<0)return (char)(i+'a');
+        }
+        return  'a';
     }
 }
