@@ -1,17 +1,12 @@
 class Solution {
-    public int maxProfit(int[] p) {
-        int ans=0;
-        int mn=p[0];
-        int mx=p[0];
-        for(int i=1;i<p.length;i++){
-            if(mn>p[i]){
-                mn=p[i];
-                mx=p[i];
-            }
-            if(mx<p[i]){
-                mx=p[i];
-            }
-            ans=Math.max(ans,mx-mn);
+    public int maxProfit(int[] prices) {
+        int mn = Integer.MAX_VALUE;
+        int mx = 0;
+        int ans = 0;
+        int n = prices.length;
+        for(int i=0;i<n;i++){
+            ans = Math.max(ans,prices[i]-mn);
+            mn = Math.min(mn,prices[i]);
         }
         return ans;
     }
