@@ -1,16 +1,17 @@
 class Solution {
-    public int[] twoSum(int[] a, int t) {
-        int l =0;
-        int n=a.length;
-        int r=n-1;
-        while(l<r){
-            int o = a[l]+a[r];
-            if(o==t){
-                return new int[]{l+1,r+1};
+    public int[] twoSum(int[] arr, int t) {
+        int[] ids = new int[4001];
+        int n = arr.length;
+        for(int i=0;i<n;i++){
+            if(ids[t-arr[i]+1000]!=0){
+                for(int j=0;j<i;j++){
+                    if(t-arr[i]==arr[j]){
+                        return new int[]{j+1,i+1};
+                    }
+                }
             }
-            else if(o<t) l++;
-            else r--;
+            ids[arr[i]+1000]=1;
         }
-        return null;
+        return new int[]{-1,-1};
     }
 }
