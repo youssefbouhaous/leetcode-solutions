@@ -1,38 +1,25 @@
 class Solution {
-    public int[][] merge(int[][] arr) {
-        Arrays.sort(arr, (a, b) -> {
-            int n = Math.min(a.length, b.length);
-
-            for (int i = 0; i < n; i++) {
-                if (a[i] != b[i]) {
-                    return Integer.compare(a[i], b[i]);
-                }
-            }
-
-            return Integer.compare(a.length, b.length);
+    public int[][] merge(int[][] l) {
+        Arrays.sort(l,(a,b)->{
+            if(a[0]==b[0])return Integer.compare(a[1],b[1]);
+            return Integer.compare(a[0],b[0]);
         });
-        int l=0;
-        int n = arr.length;
-        int r=0;
-        List<List<Integer>> ans=new ArrayList<>();
-        while(l<n){
-            int[] tmp = new int[2];
-            tmp[0]=arr[l][0];
-            while(l<n-1 && arr[l][1]>=arr[l+1][0]){
-                arr[l+1][1]=Math.max(arr[l+1][1],arr[l][1]);
-                l++;
+        List<int[]> tmp = new ArrayList<>();
+        int n = l.length;
+        int i=0;
+        while(i<n){
+            int a = l[i][0];
+            int b=l[i][1];
+            i++;
+            while(i<n && b>=l[i][0]){
+                b=Math.max(b,l[i][1]);i++;
             }
-            tmp[1]=arr[l][1];
-            ans.add(Arrays.asList(tmp[0], tmp[1]));
-            l++;
+            tmp.add(new int[]{a,b});
         }
-        int[][] an = new int[ans.size()][];
-        for(int i=0;i<ans.size();i++){
-            // System.out.println(ans.get(i));
-            int a=ans.get(i).get(0);
-            int b=ans.get(i).get(1);
-            an[i] = new int[]{a,b};
+        int[][] ans = new int[tmp.size()][];
+        for(int j=0;j<tmp.size();j++){
+            ans[j]=tmp.get(j);
         }
-        return an;
+        return ans;
     }
 }
