@@ -1,12 +1,5 @@
 class Solution {
-    class Pair{
-        public String a;
-        public Integer b;
-        Pair(String a,Integer b){
-            this.a = a;
-            this.b = b;
-        }
-    }
+    record Pair(String a,Integer b){}
     public List<String> topKFrequent(String[] words, int k) {
         Map<String,Integer> map = new HashMap<>();
         int n = words.length;
