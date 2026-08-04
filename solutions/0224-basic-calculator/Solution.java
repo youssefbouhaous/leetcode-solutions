@@ -1,90 +1,84 @@
 class Solution {
     public int calculate(String s) {
-        /*
-        1+2-  6+7 -> [1,+,2,-,6,+,7]
-        we don t have () x 1,2,+ => 3 -> [4]
-        (4+3-6+3) -> []
-        [9,-,9,-,-6]->-6
-        (6+3)-9 -(3-9)
-        */
-        Deque<String> q = new ArrayDeque<>();
-        int i = 0;
+        Stack<String> stack = new Stack<>();
+        Set<Character> setOp= new HashSet<>(List.of('+','-'));
+        int i=0;
         int n = s.length();
-        while(i<n){
-            char o = s.charAt(i);
-            if(o==' '){i++;}
-            else if(o!=')'){
-                if(o>='0' && o<='9'){
-                    StringBuilder tmpNumber = new StringBuilder();
-                    while(i<n && o>='0' && o<='9'){
-                        tmpNumber.append(o);
+        while (i<n){
+            char o =s.charAt(i);
+            if(o==' '){i++;continue;}
+            if(o!=')'){
+                if(Character.isDigit(o)){
+                    StringBuilder tmp = new StringBuilder();
+                    while (i<n && Character.isDigit(o)){
+                        tmp.append(o);
                         i++;
-                        if(i<n){
-                            o=s.charAt(i);
-                        }
+                        if(i<n)
+                        o=s.charAt(i);
                     }
-                    q.addLast(tmpNumber.toString());
-                }else{
+                    stack.add(tmp.toString());
+                }
+                else{
+                    stack.add(o+"");
                     i++;
-                    q.addLast(o+"");
                 }
             }
             else{
-                Deque<String> tmpQ = new ArrayDeque<>();
-                while(!q.peekLast().equals("(")){
-                    tmpQ.addFirst(q.pollLast());
-                }
-                q.pollLast();
-                while(tmpQ.size()>1){
-                    String a = tmpQ.pollFirst();
-                    String b = tmpQ.pollFirst();
-                    if(a.equals("-")){
-                        if(b.charAt(0)!='-'){
-                        tmpQ.addFirst(Integer.parseInt("-"+b)+"");continue;
-                        }else{ 
-                        tmpQ.addFirst(-Integer.parseInt(b)+"");continue;
-                        }
-                    }
-                    String c = tmpQ.pollFirst();
-                    if(b.equals("-")){
-                        int na = Integer.parseInt(a);
-                        int nc = Integer.parseInt(c);
-                        tmpQ.addFirst(na-nc+"");
-                    }else{
-                        int na = Integer.parseInt(a);
-                        int nc = Integer.parseInt(c);
-                        tmpQ.addFirst(na+nc+"");
-                    }
-                }
-                q.addLast(tmpQ.peekLast());
                 i++;
+                Deque<String> q = new ArrayDeque<>();
+                while (!stack.peek().equals("(")){
+                    q.addFirst(stack.pop());
+                }
+                stack.pop();
+                while(q.size()>1){
+                    String a = q.pollFirst();
+                    String b = q.pollFirst();
+                    if(setOp.contains(a.charAt(0)) && a.length()==1){
+                        if(b.charAt(0)!='-'){
+                            q.addFirst("-"+b);
+                        }else
+                        q.addFirst(-Integer.parseInt(b)+"");
+                        continue;
+                    }
+                    String c = q.pollFirst();
+                    if(b.equals("-")){
+                        int intA = Integer.parseInt(a);
+                        int intB = Integer.parseInt(c);
+                        q.addFirst(intA-intB+"");
+                    }else{
+                        int intA = Integer.parseInt(a);
+                        int intB = Integer.parseInt(c);
+                        q.addFirst(intA+intB+"");
+                    }
+                }
+                stack.push(q.peek());
             }
         }
-        Deque<String> tmpQ = new ArrayDeque<>();
-                while(!q.isEmpty()){
-                    tmpQ.addFirst(q.pollLast());
-                }
-                while(tmpQ.size()>1){
-                    String a = tmpQ.pollFirst();
-                    String b = tmpQ.pollFirst();
-                    if(a.equals("-")){
-                        if(b.charAt(0)!='-'){
-                        tmpQ.addFirst(Integer.parseInt("-"+b)+"");continue;
-                        }else{ 
-                        tmpQ.addFirst(-Integer.parseInt(b)+"");continue;
-                        }
-                    }
-                    String c = tmpQ.pollFirst();
-                    if(b.equals("-")){
-                        int na = Integer.parseInt(a);
-                        int nc = Integer.parseInt(c);
-                        tmpQ.addFirst(na-nc+"");
-                    }else{
-                        int na = Integer.parseInt(a);
-                        int nc = Integer.parseInt(c);
-                        tmpQ.addFirst(na+nc+"");
-                    }
-                }
-        return Integer.parseInt(tmpQ.peekLast());
+        Deque<String> q = new ArrayDeque<>();
+        while (!stack.isEmpty()){
+            q.addFirst(stack.pop());
+        }
+        while(q.size()>1){
+            String a = q.pollFirst();
+            String b = q.pollFirst();
+            if(setOp.contains(a.charAt(0)) && a.length()==1){
+                if(b.charAt(0)!='-'){
+                    q.addFirst("-"+b);
+                }else
+                q.addFirst(-Integer.parseInt(b)+"");
+                continue;
+            }
+            String c = q.pollFirst();
+            if(b.equals("-")){
+                int intA = Integer.parseInt(a);
+                int intB = Integer.parseInt(c);
+                q.addFirst(intA-intB+"");
+            }else{
+                int intA = Integer.parseInt(a);
+                int intB = Integer.parseInt(c);
+                q.addFirst(intA+intB+"");
+            }
+        }
+        return Integer.parseInt(q.peekLast());
     }
 }
