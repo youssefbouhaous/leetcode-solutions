@@ -1,42 +1,45 @@
 class Solution {
     public String decodeString(String s) {
-        Deque<Character> q = new ArrayDeque<>();
+        Stack<Character> st = new Stack<>();
+        Stack<Integer> si = new Stack<>();
         int n = s.length();
-        StringBuilder ans = new StringBuilder();
-        for(int i=0;i<n;i++){
+        int i =0;
+        while(i<n){
             char o = s.charAt(i);
-            if(o!=']')q.addLast(o);
-            else{
+            if(o!=']'){
+                if(o>'0' && o<='9'){
+                    int r = 0;
+                    while(i<n && s.charAt(i)>='0' && s.charAt(i)<='9'){
+                        o=s.charAt(i++);
+                        r = r*10+o-'0';
+                    }
+                    si.push(r);
+                }else{
+                    st.push(o);
+                    i++;
+                }
+            }else{
                 StringBuilder tmp = new StringBuilder();
                 while(o!='['){
+                    o=st.pop();
+                    if(o!='[')
                     tmp.append(o);
-                    o=q.pollLast();
                 }
-                StringBuilder nu = new StringBuilder();
-                o=q.pollLast();
-                nu.append(o);
-                while(!q.isEmpty() && o>='0' && o<='9'){
-                    o=q.pollLast();
-                    if(o>='0' && o<='9')
-                    nu.append(o);
-                    else q.addLast(o);
+                int r = si.pop();
+                tmp.reverse();
+                for(int j=0;j<r;j++){
+                    for(int l=0;l<tmp.length();l++){
+                        st.push(tmp.charAt(l));
+                    }
                 }
-                nu.reverse();
-                int nn = Integer.parseInt(nu.toString());
-                while(nn-->0){
-                    StringBuilder tt = new StringBuilder(tmp);
-                    while(tt.length()>0){
-                    q.addLast(tt.charAt(tt.length()-1));
-                    tt.setLength(tt.length()-1);}
-                }
-                // System.out.println(nu);
+                i++;
             }
         }
-        while(!q.isEmpty()){
-            char o = q.pollFirst();
-            if(o!=']')
-            ans.append(o);
+        StringBuilder ans = new StringBuilder();
+        while(!st.isEmpty()){
+            ans.append(st.pop());
         }
-       return ans.toString();
+        ans.reverse();
+        return ans.toString();
     }
 }
