@@ -1,18 +1,29 @@
 class MyHashSet {
-    boolean[] set = new boolean[1000005];
+    boolean[] set = new boolean[16];
+    int cap =16;
     public MyHashSet() {
         
     }
     
     public void add(int key) {
+        if(key>cap){
+            int preCap = cap;
+            while(cap<key)
+            cap*=2;
+            boolean[] newSet = new boolean[cap];
+            for(int i=0;i<preCap;i++)newSet[i]=set[i];
+            set = newSet;
+        }
         set[key]=true;
     }
     
     public void remove(int key) {
+        if(key<=cap)
         set[key]=false;
     }
     
     public boolean contains(int key) {
+        if(key>cap)return false;
         return set[key];        
     }
 }
