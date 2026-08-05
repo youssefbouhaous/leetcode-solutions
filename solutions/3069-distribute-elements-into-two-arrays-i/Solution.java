@@ -15,6 +15,7 @@ class Solution {
         for(Integer x:b)a.add(x);
         int[] ans = new int[a.size()];
         for(int i=0;i<n;i++)ans[i]=a.get(i);
+        
         return ans;
     }
 }
