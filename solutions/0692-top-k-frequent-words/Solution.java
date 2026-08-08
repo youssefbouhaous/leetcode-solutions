@@ -1,24 +1,22 @@
 class Solution {
-    record Pair(String a,Integer b){}
+    public record Pair(String s,Integer cnt){}
     public List<String> topKFrequent(String[] words, int k) {
-        Map<String,Integer> map = new HashMap<>();
-        int n = words.length;
-        for(int i=0;i<n;i++){
-            map.put(words[i],map.getOrDefault(words[i],0)+1);
+        Map<String,Integer> mp = new HashMap<>();
+        for(String s:words){
+            mp.put(s,mp.getOrDefault(s,0)+1);
         }
-        List<Pair> list = new ArrayList<>();
-        for(String s : map.keySet()){
-            list.add(new Pair(s,map.get(s)));
-        }
-        list.sort((a,b)->{
-            if(a.b.equals(b.b)){
-                return a.a.compareTo(b.a);
-            }
-            return b.b.compareTo(a.b);
+        PriorityQueue<Pair> q = new PriorityQueue<>((a,b)->{
+            if(a.cnt==b.cnt)return a.s.compareTo(b.s);
+            return b.cnt-a.cnt;
         });
+        for(String s:mp.keySet()){
+            q.add(new Pair(s,mp.get(s)));
+        }
         List<String> ans = new ArrayList<>();
-        for(int i =0 ;i<list.size() && k>0;i++,k--){
-            ans.add(list.get(i).a);
+        while(!q.isEmpty()){
+            ans.add(q.poll().s);
+            k--;
+            if(k<1)break;
         }
         return ans;
     }
