@@ -1,20 +1,18 @@
 class Solution {
     public int countPrimes(int n) {
-        if(n<2)return 0;
-        int[] primes = new int[n+1];
-        primes[0]=1;
-        primes[1]=1;
-        for(int i=2;i<=n;i++){
-            if(primes[i]==0){
-                for(long j=(long)i*i;j<n;j+=i){
-                    primes[(int)j]=1;
+        if(n<3)return 0;
+        boolean[] primes = new boolean[n];
+        primes[0]=true;
+        primes[1]=true;
+        int cnt = 0;
+        for(long i=2;i<n;i++){
+            if(!primes[(int)i]){
+                cnt++;
+                for(long j=i*i;j<n;j+=i){
+                    primes[(int)j]=true;
                 }
             }
         }
-        int ans=0;
-        for(int i=0;i<n;i++){
-            if(primes[i]==0)ans++;
-        }
-        return ans;
+        return cnt;
     }
 }
