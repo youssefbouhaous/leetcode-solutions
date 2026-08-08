@@ -1,17 +1,17 @@
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-        Set<Integer> st = new HashSet<>();
-        st.add(nums[0]);
+        Set<Integer> mp = new HashSet<>();
         int n = nums.length;
-        for(int i=1;i<n;i++){
-            if(st.contains(target-nums[i])){
+        for(int i=0;i<n;i++){
+            int e = nums[i];
+            if(mp.contains(target-e)){
                 for(int j=0;j<i;j++){
-                    if(nums[j]==target-nums[i]){
+                    if(target-e==nums[j]){
                         return new int[]{j,i};
                     }
                 }
             }
-            st.add(nums[i]);
+            mp.add(e);
         }
         return null;
     }
