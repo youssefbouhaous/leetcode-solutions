@@ -1,0 +1,10 @@
+-- Write your PostgreSQL query statement below
+WITH CNT AS (
+    SELECT COUNT(*) FROM SEAT
+)
+SELECT (
+    CASE 
+    WHEN ID=(SELECT * FROM CNT) AND ID%2=1 THEN ID
+    WHEN ID%2=1 THEN ID+1
+    ELSE ID-1 END
+) AS ID,STUDENT FROM SEAT ORDER BY ID;
