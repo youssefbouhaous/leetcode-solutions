@@ -1,0 +1,5 @@
+-- Write your PostgreSQL query statement below
+SELECT ACTIVITY_DATE AS DAY,COUNT(DISTINCT USER_ID) AS ACTIVE_USERS 
+FROM ACTIVITY WHERE ACTIVITY_DATE BETWEEN DATE'2019-07-27'-29 AND '2019-07-27'
+AND ACTIVITY_TYPE IN ('open_session', 'end_session', 'scroll_down', 'send_message')
+GROUP BY ACTIVITY_DATE ;
