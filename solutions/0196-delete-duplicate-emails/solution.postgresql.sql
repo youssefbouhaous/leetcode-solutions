@@ -1,0 +1,7 @@
+-- Write your PostgreSQL query statement below
+DELETE FROM PERSON P
+WHERE EXISTS(
+    SELECT 1 FROM PERSON P2
+    WHERE P.EMAIL=P2.EMAIL
+    AND P2.ID<P.ID
+)
