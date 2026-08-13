@@ -1,30 +1,27 @@
 class Solution {
     public boolean isValid(String s) {
-        Deque<Character> q = new ArrayDeque<>();
-        Set<Character> st = new HashSet<>();
+        Stack<Character> st = new Stack<>();
         int n = s.length();
-        st.add('(');
-        st.add('{');
-        st.add('[');
+        Set<Character> op = new HashSet<>(List.of('(','{','['));
         for(int i=0;i<n;i++){
             char o = s.charAt(i);
-            if(!st.contains(o)){
-                if(q.isEmpty())return false;
-                char e = q.pollLast();
+            if(op.contains(o)){
+                st.push(o);
+            }else{
+                if(st.isEmpty())return false;
                 switch(o){
                     case ')':
-                    if(e!='('){
-                        return false;}else break;
-                    case '}':
-                    if(e!='{'){return false;}else break;
+                    if(st.pop()!='(')return false;
+                        break;
                     case ']':
-                    if(e!='['){return false;}else break;
+                    if(st.pop()!='[')return false;
+                        break;
+                    case '}':
+                    if(st.pop()!='{')return false;
+                        break;
                 }
             }
-            else{
-                q.addLast(o);
-            }
         }
-        return q.isEmpty();
+        return st.isEmpty();
     }
 }
