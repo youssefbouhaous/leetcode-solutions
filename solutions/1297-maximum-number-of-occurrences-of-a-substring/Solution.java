@@ -10,16 +10,16 @@ class Solution {
             long pow = 1;
             int[] cnt = new int[27];
             int uni = 0;
-            for(int j=i;j<Math.min(i+maxSize,n);j++){
+            for(int j=i;j<Math.min(i+minSize,n);j++){
                 int o = s.charAt(j)-'a'+1;
                 tmph = (tmph + o*pow)%m;
                 pow =(p*pow)%m;
                 cnt[o]++;
                 if(cnt[o]==1)uni++;
-                if(j-i+1>=minSize && uni<=maxLetters){
-                    mp.put(tmph,mp.getOrDefault(tmph,0)+1);
-                    mx=Math.max(mx,mp.get(tmph));
-                }
+            }
+            if(uni<=maxLetters && i<=n-minSize){
+                mp.put(tmph,mp.getOrDefault(tmph,0)+1);
+                mx=Math.max(mx,mp.get(tmph));
             }
         }
         return mx;
