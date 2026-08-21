@@ -1,20 +1,24 @@
 class Solution {
+    boolean up(char c){
+        return c>='A' && c<='Z';
+    }
     public boolean isIsomorphic(String s, String t) {
-        Map<Character,Character> mps = new HashMap<>();
-        Map<Character,Character> mpt = new HashMap<>();
         int n = s.length();
+        int m = t.length();
+        if(n!=m)return false;
+        int[] ms = new int[1000];
+        int[] mt = new int[1000];
+        Arrays.fill(ms,-1);
+        Arrays.fill(mt,-1);
         for(int i=0;i<n;i++){
-            char a = s.charAt(i);
-            char b = t.charAt(i);
-            if(mps.get(b)==null){
-                if(mpt.get(a)!=null && mpt.get(a)!=b)return false;
-                mps.put(b,a);
-                mpt.put(a,b);
-            }
-            else if(mps.get(b)!=a){
+            int a = s.charAt(i);
+            int b = t.charAt(i);
+            if(ms[a]==b || (ms[a]==-1&&mt[b]==-1)){
+                ms[a]=b;
+                mt[b]=a;
+            }else{
                 return false;
             }
-            
         }
         return true;
     }
