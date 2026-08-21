@@ -1,7 +1,4 @@
 class Solution {
-    boolean up(char c){
-        return c>='A' && c<='Z';
-    }
     public boolean isIsomorphic(String s, String t) {
         int n = s.length();
         int m = t.length();
@@ -11,9 +8,10 @@ class Solution {
         Arrays.fill(ms,-1);
         Arrays.fill(mt,-1);
         for(int i=0;i<n;i++){
-            int a = s.charAt(i);
-            int b = t.charAt(i);
-            if(ms[a]==b || (ms[a]==-1&&mt[b]==-1)){
+            int a=s.charAt(i);
+            int b=t.charAt(i);
+            if(ms[a]==b || (ms[a]==-1 && mt[b]==-1)){
+                if(mt[b]!=-1 && mt[b]!=a)return false;
                 ms[a]=b;
                 mt[b]=a;
             }else{
