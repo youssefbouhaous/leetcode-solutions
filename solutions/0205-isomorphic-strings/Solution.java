@@ -3,8 +3,8 @@ class Solution {
         int n = s.length();
         int m = t.length();
         if(n!=m)return false;
-        int[] ms = new int[1000];
-        int[] mt = new int[1000];
+        int[] ms = new int[128];
+        int[] mt = new int[128];
         Arrays.fill(ms,-1);
         Arrays.fill(mt,-1);
         for(int i=0;i<n;i++){
