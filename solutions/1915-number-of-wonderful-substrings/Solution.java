@@ -9,7 +9,7 @@ class Solution {
             int o = word.charAt(i)-'a';
             mask ^= (1<<(o));
             ans += mp.getOrDefault(mask, 0L);
-            for (int k = 0; k < 26; k++) {
+            for (int k = 0; k < 10; k++) {
                 int prev = mask ^ (1 << k);
                 ans += mp.getOrDefault(prev, 0L);
             }
