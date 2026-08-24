@@ -31,6 +31,7 @@ class WordDictionary {
                 StringBuilder t = new StringBuilder(word);
                 boolean f = false;
                 for(int c=0;c<26;c++){
+                    if(cur.children[c]==null)continue;
                     t.setCharAt(i,(char)(c+'a'));
                     f|=search(t.toString());
                 }
