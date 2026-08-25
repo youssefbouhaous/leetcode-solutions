@@ -1,7 +1,7 @@
 class Solution {
     public boolean isIsomorphic(String s, String t) {
-        int n = s.length();
-        int m = t.length();
+        int n=s.length();
+        int m=t.length();
         if(n!=m)return false;
         int[] ms = new int[128];
         int[] mt = new int[128];
@@ -10,8 +10,7 @@ class Solution {
         for(int i=0;i<n;i++){
             int a=s.charAt(i);
             int b=t.charAt(i);
-            if(ms[a]==b || (ms[a]==-1 && mt[b]==-1)){
-                if(mt[b]!=-1 && mt[b]!=a)return false;
+            if((ms[a]==-1&&mt[b]==-1) || (ms[a]!=-1 && a==mt[b] && b==ms[a])){
                 ms[a]=b;
                 mt[b]=a;
             }else{
