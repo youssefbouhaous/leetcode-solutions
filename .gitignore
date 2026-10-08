@@ -16,3 +16,6 @@ credentials.*
 credentials/
 *.pem
 *.key
+
+metadata/
+solutions/**/metadata.json
